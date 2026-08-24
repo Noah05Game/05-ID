@@ -281,6 +281,54 @@ document.addEventListener(
 
 
                         // ========================================
+                        // BUILD FORM DATA
+                        // ========================================
+
+                        const formData =
+                            new URLSearchParams();
+
+
+                        formData.set(
+                            "client_id",
+                            clientId
+                        );
+
+                        formData.set(
+                            "redirect_uri",
+                            redirectUri
+                        );
+
+                        formData.set(
+                            "response_type",
+                            responseType
+                        );
+
+                        formData.set(
+                            "scope",
+                            scope
+                        );
+
+                        if (state) {
+
+                            formData.set(
+                                "state",
+                                state
+                            );
+
+                        }
+
+                        formData.set(
+                            "code_challenge",
+                            codeChallenge
+                        );
+
+                        formData.set(
+                            "code_challenge_method",
+                            codeChallengeMethod
+                        );
+
+
+                        // ========================================
                         // REQUEST AUTHORIZATION CODE
                         // ========================================
 
@@ -292,38 +340,21 @@ document.addEventListener(
                                         "POST",
 
                                     headers: {
+
                                         "Content-Type":
-                                            "application/json",
+                                            "application/x-www-form-urlencoded",
 
                                         "Authorization":
                                             `Bearer ${sessionData.session.access_token}`,
 
                                         "apikey":
                                             SUPABASE_PUBLISHABLE_KEY
+
                                     },
 
                                     body:
-                                        JSON.stringify({
+                                        formData.toString()
 
-                                            client_id:
-                                                clientId,
-
-                                            redirect_uri:
-                                                redirectUri,
-
-                                            scope:
-                                                scope,
-
-                                            state:
-                                                state,
-
-                                            code_challenge:
-                                                codeChallenge,
-
-                                            code_challenge_method:
-                                                codeChallengeMethod
-
-                                        })
                                 }
                             );
 
@@ -366,22 +397,52 @@ document.addEventListener(
 
 
                         // ========================================
-                        // REDIRECT TO APPLICATION
+                        // CHECK CODE
                         // ========================================
 
                         if (
-                            !result.redirect_uri
+                            !result.code
                         ) {
 
                             throw new Error(
-                                "05 ID did not provide a redirect URL."
+                                "05 ID did not return an authorization code."
                             );
 
                         }
 
 
+                        // ========================================
+                        // BUILD CALLBACK URL
+                        // ========================================
+
+                        const callbackUrl =
+                            new URL(
+                                result.redirect_uri
+                            );
+
+
+                        callbackUrl.searchParams.set(
+                            "code",
+                            result.code
+                        );
+
+
+                        if (result.state) {
+
+                            callbackUrl.searchParams.set(
+                                "state",
+                                result.state
+                            );
+
+                        }
+
+
+                        // ========================================
+                        // REDIRECT TO APPLICATION
+                        // ========================================
+
                         window.location.href =
-                            result.redirect_uri;
+                            callbackUrl.toString();
 
                     } catch (error) {
 
