@@ -1,0 +1,796 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>05 Developer</title>
+
+
+    <!-- ========================================
+         FAVICON
+    ======================================== -->
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="../assets/dev-logo.png"
+    >
+
+
+    <!-- ========================================
+         DEVELOPER CSS
+    ======================================== -->
+
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="../css/developer.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- ========================================
+         BACKGROUND
+    ======================================== -->
+
+    <div class="background-grid"></div>
+
+    <div class="background-glow"></div>
+
+
+    <!-- ========================================
+         CUSTOM TARGET CURSOR
+    ======================================== -->
+
+    <div
+        class="target-cursor-wrapper"
+        id="targetCursor"
+        aria-hidden="true"
+    >
+
+        <div
+            class="target-cursor-dot"
+            id="targetCursorDot"
+        ></div>
+
+        <div
+            class="target-cursor-corner corner-tl"
+        ></div>
+
+        <div
+            class="target-cursor-corner corner-tr"
+        ></div>
+
+        <div
+            class="target-cursor-corner corner-br"
+        ></div>
+
+        <div
+            class="target-cursor-corner corner-bl"
+        ></div>
+
+    </div>
+
+
+
+    <!-- ========================================
+         HEADER
+    ======================================== -->
+
+    <header class="developer-header">
+
+        <a
+            href="./index.html"
+            class="developer-brand cursor-target"
+        >
+
+            <img
+                src="../assets/dev-logo.png"
+                alt="05"
+                class="developer-logo"
+            >
+
+            <span class="developer-brand-text">
+                Developer
+            </span>
+
+        </a>
+
+
+        <nav class="header-navigation">
+
+            <a
+                href="#documentation"
+                class="cursor-target"
+            >
+                Documentation
+            </a>
+
+            <a
+                href="#resources"
+                class="cursor-target"
+            >
+                Resources
+            </a>
+
+            <a
+                href="#support"
+                class="cursor-target"
+            >
+                Support
+            </a>
+
+            <a
+                href="#signup"
+                class="header-button cursor-target"
+            >
+                Get started
+            </a>
+
+        </nav>
+
+    </header>
+
+
+
+    <!-- ========================================
+         MAIN
+    ======================================== -->
+
+    <main class="developer-main">
+
+
+        <!-- ====================================
+             SIDEBAR
+        ==================================== -->
+
+        <aside class="developer-sidebar">
+
+            <nav
+                class="line-sidebar line-sidebar--markers line-sidebar--scale-tick"
+                id="lineSidebar"
+            >
+
+                <ul class="line-sidebar__list">
+
+                    <li
+                        class="line-sidebar__item active cursor-target"
+                        data-section="overview"
+                    >
+
+                        <span
+                            class="line-sidebar__marker"
+                            aria-hidden="true"
+                        ></span>
+
+                        <span class="line-sidebar__label">
+
+                            <span class="line-sidebar__index">
+                                01
+                            </span>
+
+                            <span class="line-sidebar__text">
+                                Overview
+                            </span>
+
+                        </span>
+
+                    </li>
+
+
+                    <li
+                        class="line-sidebar__item cursor-target"
+                        data-section="components"
+                    >
+
+                        <span
+                            class="line-sidebar__marker"
+                            aria-hidden="true"
+                        ></span>
+
+                        <span class="line-sidebar__label">
+
+                            <span class="line-sidebar__index">
+                                02
+                            </span>
+
+                            <span class="line-sidebar__text">
+                                Components
+                            </span>
+
+                        </span>
+
+                    </li>
+
+
+                    <li
+                        class="line-sidebar__item cursor-target"
+                        data-section="documentation"
+                    >
+
+                        <span
+                            class="line-sidebar__marker"
+                            aria-hidden="true"
+                        ></span>
+
+                        <span class="line-sidebar__label">
+
+                            <span class="line-sidebar__index">
+                                03
+                            </span>
+
+                            <span class="line-sidebar__text">
+                                Documentation
+                            </span>
+
+                        </span>
+
+                    </li>
+
+
+                    <li
+                        class="line-sidebar__item cursor-target"
+                        data-section="resources"
+                    >
+
+                        <span
+                            class="line-sidebar__marker"
+                            aria-hidden="true"
+                        ></span>
+
+                        <span class="line-sidebar__label">
+
+                            <span class="line-sidebar__index">
+                                04
+                            </span>
+
+                            <span class="line-sidebar__text">
+                                Resources
+                            </span>
+
+                        </span>
+
+                    </li>
+
+
+                    <li
+                        class="line-sidebar__item cursor-target"
+                        data-section="support"
+                    >
+
+                        <span
+                            class="line-sidebar__marker"
+                            aria-hidden="true"
+                        ></span>
+
+                        <span class="line-sidebar__label">
+
+                            <span class="line-sidebar__index">
+                                05
+                            </span>
+
+                            <span class="line-sidebar__text">
+                                Support
+                            </span>
+
+                        </span>
+
+                    </li>
+
+                </ul>
+
+            </nav>
+
+        </aside>
+
+
+
+        <!-- ====================================
+             CONTENT
+        ==================================== -->
+
+        <div class="developer-content">
+
+
+            <!-- ==================================
+                 HERO
+            ================================== -->
+
+            <section
+                id="overview"
+                class="hero-section"
+            >
+
+                <div class="hero-eyebrow">
+
+                    <span class="status-dot"></span>
+
+                    05 Developer Platform
+
+                </div>
+
+
+                <h1>
+
+                    Build something
+                    <span>05.</span>
+
+                </h1>
+
+
+                <p class="hero-description">
+
+                    Everything you need to build applications
+                    and services that work with the 05 ecosystem.
+
+                    <br>
+
+                    Authentication, APIs, components and more —
+                    all designed to work together.
+
+                </p>
+
+
+                <div class="hero-actions">
+
+                    <a
+                        href="#documentation"
+                        class="primary-button cursor-target"
+                    >
+
+                        Read the documentation
+
+                        <span>
+                            →
+                        </span>
+
+                    </a>
+
+
+                    <a
+                        href="#components"
+                        class="secondary-button cursor-target"
+                    >
+
+                        Explore components
+
+                    </a>
+
+                </div>
+
+
+                <div class="hero-meta">
+
+                    <div>
+
+                        <span>
+                            Platform
+                        </span>
+
+                        <strong>
+                            05 ID
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Developer access
+                        </span>
+
+                        <strong>
+                            Free
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Status
+                        </span>
+
+                        <strong class="online">
+                            Operational
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ==================================
+                 COMPONENTS
+            ================================== -->
+
+            <section
+                id="components"
+                class="content-section"
+            >
+
+                <div class="section-number">
+                    02
+                </div>
+
+                <div>
+
+                    <p class="section-label">
+                        COMPONENTS
+                    </p>
+
+                    <h2>
+                        Build faster.
+                    </h2>
+
+                    <p>
+                        Reusable components designed for
+                        applications that use the 05 ecosystem.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-grid">
+
+                    <article
+                        class="feature-card cursor-target"
+                    >
+
+                        <span class="feature-number">
+                            01
+                        </span>
+
+                        <h3>
+                            05 ID
+                        </h3>
+
+                        <p>
+                            Add 05 ID authentication to your
+                            application with a familiar,
+                            secure sign-in experience.
+                        </p>
+
+                    </article>
+
+
+                    <article
+                        class="feature-card cursor-target"
+                    >
+
+                        <span class="feature-number">
+                            02
+                        </span>
+
+                        <h3>
+                            Developer APIs
+                        </h3>
+
+                        <p>
+                            Connect your application to
+                            services provided by The05Company.
+                        </p>
+
+                    </article>
+
+
+                    <article
+                        class="feature-card cursor-target"
+                    >
+
+                        <span class="feature-number">
+                            03
+                        </span>
+
+                        <h3>
+                            UI Components
+                        </h3>
+
+                        <p>
+                            Drop-in components for building
+                            consistent 05 experiences.
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ==================================
+                 DOCUMENTATION
+            ================================== -->
+
+            <section
+                id="documentation"
+                class="content-section documentation-section"
+            >
+
+                <div class="section-number">
+                    03
+                </div>
+
+                <div>
+
+                    <p class="section-label">
+                        DOCUMENTATION
+                    </p>
+
+                    <h2>
+                        Everything in one place.
+                    </h2>
+
+                    <p>
+                        Learn how to integrate 05 services,
+                        authenticate users and build applications
+                        on the platform.
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="documentation-card cursor-target"
+                >
+
+                    <div class="documentation-card-top">
+
+                        <span>
+                            05 ID
+                        </span>
+
+                        <span>
+                            API
+                        </span>
+
+                    </div>
+
+
+                    <h3>
+                        Authentication
+                    </h3>
+
+
+                    <p>
+                        Let users sign into your application
+                        using their existing 05 ID.
+                    </p>
+
+
+                    <a
+                        href="#"
+                        class="cursor-target"
+                    >
+
+                        View documentation
+
+                        <span>
+                            →
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ==================================
+                 RESOURCES
+            ================================== -->
+
+            <section
+                id="resources"
+                class="content-section"
+            >
+
+                <div class="section-number">
+                    04
+                </div>
+
+                <div>
+
+                    <p class="section-label">
+                        RESOURCES
+                    </p>
+
+                    <h2>
+                        Start building.
+                    </h2>
+
+                    <p>
+                        Tools and resources to help you get
+                        your application connected to 05.
+                    </p>
+
+                </div>
+
+
+                <div class="resource-list">
+
+                    <a
+                        href="#"
+                        class="resource-item cursor-target"
+                    >
+
+                        <span>
+                            01
+                        </span>
+
+                        <strong>
+                            05 ID integration
+                        </strong>
+
+                        <span class="resource-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+
+                    <a
+                        href="#"
+                        class="resource-item cursor-target"
+                    >
+
+                        <span>
+                            02
+                        </span>
+
+                        <strong>
+                            API reference
+                        </strong>
+
+                        <span class="resource-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+
+                    <a
+                        href="#"
+                        class="resource-item cursor-target"
+                    >
+
+                        <span>
+                            03
+                        </span>
+
+                        <strong>
+                            Example projects
+                        </strong>
+
+                        <span class="resource-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ==================================
+                 SUPPORT
+            ================================== -->
+
+            <section
+                id="support"
+                class="content-section support-section"
+            >
+
+                <div class="section-number">
+                    05
+                </div>
+
+                <div>
+
+                    <p class="section-label">
+                        SUPPORT
+                    </p>
+
+                    <h2>
+                        Need a hand?
+                    </h2>
+
+                    <p>
+                        We're building the developer platform
+                        alongside the people using it.
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="#"
+                    class="primary-button cursor-target"
+                >
+
+                    Get developer support
+
+                    <span>
+                        →
+                    </span>
+
+                </a>
+
+            </section>
+
+
+
+            <!-- ==================================
+                 FOOTER
+            ================================== -->
+
+            <footer class="developer-footer">
+
+                <div>
+
+                    <img
+                        src="../assets/dev-logo.png"
+                        alt="05"
+                    >
+
+                    <span>
+                        The05Company Developer Platform
+                    </span>
+
+                </div>
+
+
+                <span>
+                    © 2026 The05Company
+                </span>
+
+            </footer>
+
+
+        </div>
+
+    </main>
+
+
+
+    <!-- ========================================
+         GSAP
+    ======================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"
+    ></script>
+
+
+    <!-- ========================================
+         DEVELOPER JAVASCRIPT
+    ======================================== -->
+
+    <script src="../js/developer.js"></script>
+
+
+</body>
+
+</html>
+```

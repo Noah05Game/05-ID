@@ -1,0 +1,262 @@
+/* ========================================
+   05 ID — POLLINATIONS CALLBACK
+======================================== */
+
+
+.pollinations-page {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 24px;
+
+    box-sizing: border-box;
+
+}
+
+
+/* ========================================
+   CARD
+======================================== */
+
+
+.pollinations-card {
+
+    width: 100%;
+
+    max-width: 460px;
+
+    padding: 48px;
+
+    box-sizing: border-box;
+
+    text-align: center;
+
+    background:
+        rgba(255, 255, 255, 0.04);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.08);
+
+    border-radius: 24px;
+
+    backdrop-filter: blur(20px);
+
+    -webkit-backdrop-filter: blur(20px);
+
+    box-shadow:
+        0 24px 70px
+        rgba(0, 0, 0, 0.25);
+
+}
+
+
+/* ========================================
+   LOGO
+======================================== */
+
+
+.pollinations-logo {
+
+    width: 64px;
+
+    height: 64px;
+
+    margin:
+        0 auto
+        28px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+.pollinations-logo img {
+
+    width: 64px;
+
+    height: 64px;
+
+    object-fit: contain;
+
+}
+
+
+/* ========================================
+   CONTENT
+======================================== */
+
+
+.pollinations-content h1 {
+
+    margin:
+        0 0 12px;
+
+    color: #ffffff;
+
+    font-size: 26px;
+
+    font-weight: 600;
+
+    letter-spacing: -0.03em;
+
+}
+
+
+.pollinations-content p {
+
+    margin: 0;
+
+    color:
+        rgba(255, 255, 255, 0.55);
+
+    font-size: 15px;
+
+    line-height: 1.6;
+
+}
+
+
+/* ========================================
+   LOADING
+======================================== */
+
+
+.pollinations-loading {
+
+    width: 24px;
+
+    height: 24px;
+
+    margin:
+        28px auto 0;
+
+    border-radius: 50%;
+
+    border:
+        2px solid
+        rgba(255, 255, 255, 0.12);
+
+    border-top-color:
+        rgba(255, 255, 255, 0.85);
+
+    animation:
+        pollinations-spin
+        0.8s linear infinite;
+
+}
+
+
+@keyframes pollinations-spin {
+
+    from {
+
+        transform:
+            rotate(0deg);
+
+    }
+
+    to {
+
+        transform:
+            rotate(360deg);
+
+    }
+
+}
+
+
+/* ========================================
+   ERROR
+======================================== */
+
+
+.pollinations-error {
+
+    display: none;
+
+    margin-top: 24px;
+
+    padding: 14px 16px;
+
+    border-radius: 12px;
+
+    background:
+        rgba(255, 70, 70, 0.08);
+
+    border:
+        1px solid
+        rgba(255, 70, 70, 0.18);
+
+    color:
+        #ff8585;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+}
+
+
+.pollinations-error.visible {
+
+    display: block;
+
+}
+
+
+/* ========================================
+   RETURN BUTTON
+======================================== */
+
+
+.pollinations-back {
+
+    display: inline-flex;
+
+    margin-top: 24px;
+
+    padding:
+        10px 16px;
+
+    border-radius: 10px;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    color:
+        rgba(255, 255, 255, 0.7);
+
+    background:
+        rgba(255, 255, 255, 0.05);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.08);
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+
+}
+
+
+.pollinations-back:hover {
+
+    background:
+        rgba(255, 255, 255, 0.09);
+
+    color: #ffffff;
+
+}

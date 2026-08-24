@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Connecting Pollinations — 05 ID</title>
+
+<link
+    rel="icon"
+    type="image/png"
+    href="../assets/05-id-logo.png"
+>
+
+
+    <!-- Main site CSS -->
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <!-- Pollinations callback CSS -->
+    <link
+        rel="stylesheet"
+        href="../css/pollinations.css"
+    >
+
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+</head>
+
+
+<body>
+
+
+    <main class="pollinations-page">
+
+
+        <section class="pollinations-card">
+
+
+            <!-- 05 ID logo -->
+
+            <div class="pollinations-logo">
+
+                <img
+                    src="../assets/05-id-logo.png"
+                    alt="05 ID"
+                >
+
+            </div>
+
+
+            <div class="pollinations-content">
+
+                <h1>
+                    Connecting Pollinations
+                </h1>
+
+
+                <p id="callbackMessage">
+                    Completing your connection...
+                </p>
+
+
+                <div
+                    id="callbackLoading"
+                    class="pollinations-loading"
+                ></div>
+
+
+                <div
+                    id="callbackError"
+                    class="pollinations-error"
+                ></div>
+
+
+                <a
+                    id="callbackBack"
+                    class="pollinations-back"
+                    href="dashboard.html"
+                    style="display: none;"
+                >
+                    Return to dashboard
+                </a>
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+    <!-- 05 ID configuration -->
+
+    <script src="../js/config.js"></script>
+
+
+    <!-- Supabase client -->
+
+    <script src="../js/supabase.js"></script>
+
+
+    <!-- Pollinations OAuth -->
+
+    <script src="../js/pollinations.js"></script>
+
+
+</body>
+
+</html>

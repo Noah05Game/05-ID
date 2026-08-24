@@ -1,0 +1,1276 @@
+* {
+    box-sizing: border-box;
+}
+
+
+:root {
+
+    --background: #050505;
+
+    --border: rgba(255, 255, 255, 0.08);
+
+    --border-strong: rgba(255, 255, 255, 0.13);
+
+    --text: #ffffff;
+
+    --muted: #858585;
+
+    --success: #5cff91;
+
+    --danger: #ff5c5c;
+
+    --danger-border: rgba(255, 92, 92, 0.2);
+
+    --danger-background: rgba(255, 92, 92, 0.07);
+
+}
+
+
+/* ========================================
+   BODY
+======================================== */
+
+body {
+
+    margin: 0;
+
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            circle at 50% -20%,
+            rgba(255, 255, 255, 0.07),
+            transparent 35%
+        ),
+        var(--background);
+
+    color: var(--text);
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+}
+
+
+/* ========================================
+   PAGE
+======================================== */
+
+.dashboard-page {
+
+    min-height: 100vh;
+
+    width: 100%;
+
+}
+
+
+/* ========================================
+   HEADER
+======================================== */
+
+.dashboard-header {
+
+    height: 76px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 42px;
+
+    border-bottom:
+        1px solid var(--border);
+
+    background:
+        rgba(5, 5, 5, 0.75);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 10;
+
+}
+
+
+/* ========================================
+   BRAND
+======================================== */
+
+.dashboard-brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+}
+
+
+.dashboard-logo {
+
+    width: 34px;
+
+    height: 34px;
+
+    object-fit: contain;
+
+}
+
+
+.dashboard-brand span {
+
+    color: #ffffff;
+
+}
+
+
+/* ========================================
+   LOGOUT
+======================================== */
+
+.logout-button {
+
+    padding: 9px 14px;
+
+    border:
+        1px solid var(--border-strong);
+
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.15s ease;
+
+}
+
+
+.logout-button:hover {
+
+    background:
+        rgba(255, 255, 255, 0.06);
+
+    border-color:
+        rgba(255, 255, 255, 0.2);
+
+}
+
+
+.logout-button:active {
+
+    transform: scale(0.97);
+
+}
+
+
+/* ========================================
+   CONTENT
+======================================== */
+
+.dashboard-content {
+
+    width: 100%;
+
+    max-width: 1050px;
+
+    margin: 0 auto;
+
+    padding: 90px 32px 100px;
+
+}
+
+
+/* ========================================
+   WELCOME
+======================================== */
+
+.dashboard-introduction {
+
+    margin-bottom: 46px;
+
+}
+
+
+.dashboard-introduction h1 {
+
+    margin: 0;
+
+    font-size:
+        clamp(38px, 6vw, 58px);
+
+    font-weight: 700;
+
+    letter-spacing: -2.8px;
+
+    line-height: 1.05;
+
+}
+
+
+.dashboard-introduction h1 span {
+
+    color: #ffffff;
+
+}
+
+
+.dashboard-introduction > p {
+
+    margin-top: 17px;
+
+    color: var(--muted);
+
+    font-size: 16px;
+
+}
+
+
+/* ========================================
+   TYPING CURSOR
+======================================== */
+
+#welcomeGreeting {
+
+    display: inline-block;
+
+    border-right:
+        2px solid rgba(255, 255, 255, 0.8);
+
+    padding-right: 5px;
+
+    animation:
+        cursorBlink 0.8s steps(1) infinite;
+
+}
+
+
+@keyframes cursorBlink {
+
+    0%,
+    45% {
+
+        border-color:
+            rgba(255, 255, 255, 0.8);
+
+    }
+
+    46%,
+    100% {
+
+        border-color:
+            transparent;
+
+    }
+
+}
+
+
+/* ========================================
+   ACCOUNT CARD
+======================================== */
+
+.account-card {
+
+    position: relative;
+
+    overflow: hidden;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.045),
+            rgba(255, 255, 255, 0.012)
+        );
+
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.3);
+
+    margin-bottom: 70px;
+
+}
+
+
+.account-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 300px;
+
+    height: 300px;
+
+    top: -180px;
+
+    right: -100px;
+
+    background:
+        rgba(255, 255, 255, 0.04);
+
+    border-radius: 50%;
+
+    filter: blur(60px);
+
+    pointer-events: none;
+
+}
+
+
+/* ========================================
+   ACCOUNT HEADER
+======================================== */
+
+.account-card-header {
+
+    position: relative;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 30px 32px;
+
+    border-bottom:
+        1px solid var(--border);
+
+}
+
+
+.card-label {
+
+    margin: 0 0 7px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.7px;
+
+}
+
+
+.account-card-header h2 {
+
+    margin: 0;
+
+    font-size: 21px;
+
+    font-weight: 600;
+
+    letter-spacing: -0.5px;
+
+}
+
+
+/* ========================================
+   ACCOUNT STATUS
+======================================== */
+
+.account-status {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 7px 11px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 999px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+}
+
+
+.account-status::before {
+
+    content: "";
+
+    width: 6px;
+
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: var(--muted);
+
+}
+
+
+.account-status.active {
+
+    border-color:
+        rgba(92, 255, 145, 0.15);
+
+    color: var(--success);
+
+}
+
+
+.account-status.active::before {
+
+    background: var(--success);
+
+    box-shadow:
+        0 0 10px rgba(92, 255, 145, 0.6);
+
+}
+
+
+/* ========================================
+   ACCOUNT DETAILS
+======================================== */
+
+.account-details {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+}
+
+
+.account-detail {
+
+    min-width: 0;
+
+    padding: 27px 32px;
+
+    border-bottom:
+        1px solid var(--border);
+
+}
+
+
+.account-detail:nth-child(odd) {
+
+    border-right:
+        1px solid var(--border);
+
+}
+
+
+.account-detail:last-child {
+
+    grid-column: 1 / -1;
+
+    border-bottom: none;
+
+}
+
+
+.account-detail span {
+
+    display: block;
+
+    margin-bottom: 9px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+}
+
+
+.account-detail strong {
+
+    display: block;
+
+    overflow: hidden;
+
+    color: #ffffff;
+
+    font-size: 15px;
+
+    font-weight: 500;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+.account-id {
+
+    color: #aaaaaa !important;
+
+    font-family:
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        monospace;
+
+    font-size: 12px !important;
+
+}
+
+
+/* ========================================
+   LINKED SERVICES
+======================================== */
+
+.services-section {
+
+    width: 100%;
+
+}
+
+
+.section-heading {
+
+    margin-bottom: 22px;
+
+}
+
+
+.section-label {
+
+    margin: 0 0 8px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.7px;
+
+}
+
+
+.section-heading h2 {
+
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 28px;
+
+    font-weight: 650;
+
+    letter-spacing: -0.8px;
+
+}
+
+
+.section-heading > p:last-child {
+
+    margin: 9px 0 0;
+
+    color: var(--muted);
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+}
+
+
+/* ========================================
+   SERVICE CARD
+======================================== */
+
+.service-card {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 30px;
+
+    padding: 25px 27px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 16px;
+
+    background:
+        rgba(255, 255, 255, 0.018);
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+
+}
+
+
+.service-card:hover {
+
+    background:
+        rgba(255, 255, 255, 0.025);
+
+    border-color:
+        rgba(255, 255, 255, 0.11);
+
+}
+
+
+.service-information {
+
+    min-width: 0;
+
+    flex: 1;
+
+}
+
+
+.service-text h3 {
+
+    margin: 0 0 6px;
+
+    color: #ffffff;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+}
+
+
+.service-text p {
+
+    margin: 0;
+
+    max-width: 600px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+}
+
+
+/* ========================================
+   SERVICE STATE
+======================================== */
+
+.service-state {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 15px;
+
+    flex-shrink: 0;
+
+}
+
+
+[hidden] {
+
+    display: none !important;
+
+}
+
+
+.service-status {
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+    white-space: nowrap;
+
+}
+
+
+.linked-since {
+
+    color: var(--success);
+
+    font-size: 12px;
+
+    white-space: nowrap;
+
+}
+
+
+/* ========================================
+   LINK BUTTON
+======================================== */
+
+.link-button {
+
+    min-width: 76px;
+
+    padding: 9px 15px;
+
+    border:
+        1px solid var(--border-strong);
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #000000;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: 650;
+
+    cursor: pointer;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.15s ease;
+
+}
+
+
+.link-button:hover {
+
+    opacity: 0.88;
+
+}
+
+
+.link-button:active {
+
+    transform: scale(0.97);
+
+}
+
+
+/* ========================================
+   UNLINK BUTTON
+======================================== */
+
+.unlink-button {
+
+    min-width: 76px;
+
+    padding: 9px 15px;
+
+    border:
+        1px solid var(--danger-border);
+
+    border-radius: 8px;
+
+    background:
+        var(--danger-background);
+
+    color: var(--danger);
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: 650;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.15s ease;
+
+}
+
+
+.unlink-button:hover {
+
+    background:
+        rgba(255, 92, 92, 0.12);
+
+    border-color:
+        rgba(255, 92, 92, 0.3);
+
+}
+
+
+.unlink-button:active {
+
+    transform: scale(0.97);
+
+}
+
+
+/* ========================================
+   UNLINK MODAL
+======================================== */
+
+.modal-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1000;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 24px;
+
+    background:
+        rgba(0, 0, 0, 0.72);
+
+    backdrop-filter:
+        blur(12px);
+
+    -webkit-backdrop-filter:
+        blur(12px);
+
+    animation:
+        modalOverlayIn 0.2s ease;
+
+}
+
+
+.modal-overlay[hidden] {
+
+    display: none !important;
+
+}
+
+
+@keyframes modalOverlayIn {
+
+    from {
+
+        opacity: 0;
+
+    }
+
+    to {
+
+        opacity: 1;
+
+    }
+
+}
+
+
+/* ========================================
+   CONFIRMATION MODAL
+======================================== */
+
+.confirmation-modal {
+
+    width: 100%;
+
+    max-width: 440px;
+
+    padding: 30px;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.1);
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(25, 25, 25, 0.98),
+            rgba(10, 10, 10, 0.98)
+        );
+
+    box-shadow:
+        0 40px 100px rgba(0, 0, 0, 0.65);
+
+    animation:
+        modalIn 0.25s cubic-bezier(
+            0.16,
+            1,
+            0.3,
+            1
+        );
+
+}
+
+
+@keyframes modalIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(12px)
+            scale(0.97);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+    }
+
+}
+
+
+/* ========================================
+   MODAL ICON
+======================================== */
+
+.modal-icon {
+
+    width: 44px;
+
+    height: 44px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-bottom: 22px;
+
+    border:
+        1px solid rgba(255, 92, 92, 0.22);
+
+    border-radius: 12px;
+
+    background:
+        rgba(255, 92, 92, 0.08);
+
+}
+
+
+.modal-icon span {
+
+    color: var(--danger);
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+}
+
+
+/* ========================================
+   MODAL CONTENT
+======================================== */
+
+.modal-content h2 {
+
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 20px;
+
+    font-weight: 650;
+
+    letter-spacing: -0.5px;
+
+    line-height: 1.3;
+
+}
+
+
+.modal-content p {
+
+    margin: 11px 0 0;
+
+    color: #8f8f8f;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+}
+
+
+/* ========================================
+   MODAL ACTIONS
+======================================== */
+
+.modal-actions {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 28px;
+
+}
+
+
+.modal-actions button {
+
+    min-width: 90px;
+
+    padding: 10px 16px;
+
+    border-radius: 9px;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: 650;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.15s ease,
+        opacity 0.2s ease;
+
+}
+
+
+.modal-actions button:active {
+
+    transform: scale(0.97);
+
+}
+
+
+.modal-cancel-button {
+
+    border:
+        1px solid rgba(255, 255, 255, 0.1);
+
+    background:
+        rgba(255, 255, 255, 0.04);
+
+    color: #ffffff;
+
+}
+
+
+.modal-cancel-button:hover {
+
+    background:
+        rgba(255, 255, 255, 0.08);
+
+    border-color:
+        rgba(255, 255, 255, 0.16);
+
+}
+
+
+.modal-confirm-button {
+
+    border:
+        1px solid rgba(255, 92, 92, 0.25);
+
+    background:
+        rgba(255, 92, 92, 0.12);
+
+    color: var(--danger);
+
+}
+
+
+.modal-confirm-button:hover {
+
+    background:
+        rgba(255, 92, 92, 0.18);
+
+    border-color:
+        rgba(255, 92, 92, 0.35);
+
+}
+
+
+.modal-confirm-button:disabled {
+
+    opacity: 0.55;
+
+    cursor: not-allowed;
+
+}
+
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 700px) {
+
+    .dashboard-header {
+
+        height: 68px;
+
+        padding: 0 20px;
+
+    }
+
+
+    .dashboard-content {
+
+        padding:
+            55px 20px 70px;
+
+    }
+
+
+    .dashboard-introduction {
+
+        margin-bottom: 32px;
+
+    }
+
+
+    .dashboard-introduction h1 {
+
+        letter-spacing: -1.8px;
+
+    }
+
+
+    .account-card {
+
+        margin-bottom: 55px;
+
+    }
+
+
+    .account-card-header {
+
+        padding: 24px;
+
+        flex-direction: column;
+
+    }
+
+
+    .account-details {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .account-detail {
+
+        padding: 22px 24px;
+
+        border-right: none !important;
+
+    }
+
+
+    .account-detail:last-child {
+
+        grid-column: auto;
+
+        border-bottom: none;
+
+    }
+
+
+    .service-card {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 22px;
+
+        padding: 22px;
+
+    }
+
+
+    .service-state {
+
+        justify-content: space-between;
+
+        width: 100%;
+
+    }
+
+
+    .confirmation-modal {
+
+        padding: 25px;
+
+        border-radius: 18px;
+
+    }
+
+
+    .modal-actions {
+
+        flex-direction: column-reverse;
+
+    }
+
+
+    .modal-actions button {
+
+        width: 100%;
+
+    }
+
+}

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+   <title>05 ID — Dashboard</title>
+
+<link
+    rel="icon"
+    type="image/png"
+    href="../assets/05-id-logo.png"
+>
+
+    
+
+
+    <!-- Dashboard CSS -->
+
+    <link
+        rel="stylesheet"
+        href="../css/dashboard.css"
+    >
+
+
+    <!-- Supabase -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+</head>
+
+
+<body>
+
+
+    <main class="dashboard-page">
+
+
+        <!-- ========================================
+             HEADER
+        ======================================== -->
+
+        <header class="dashboard-header">
+
+
+            <div class="dashboard-brand">
+
+                <img
+                    src="../assets/05-id-logo.png"
+                    alt="05 ID"
+                    class="dashboard-logo"
+                >
+
+                <span>
+                    Dashboard
+                </span>
+
+            </div>
+
+
+            <button
+                id="logoutButton"
+                class="logout-button"
+                type="button"
+            >
+                Sign out
+            </button>
+
+
+        </header>
+
+
+
+        <!-- ========================================
+             DASHBOARD CONTENT
+        ======================================== -->
+
+        <section class="dashboard-content">
+
+
+            <!-- ====================================
+                 WELCOME
+            ==================================== -->
+
+            <div class="dashboard-introduction">
+
+
+                <h1>
+
+                    <span id="welcomeGreeting">
+                        Welcome
+                    </span>
+
+                    ,
+
+                    <span id="userName">
+                        ...
+                    </span>
+
+                </h1>
+
+
+                <p>
+                    View and manage your account below.
+                </p>
+
+
+            </div>
+
+
+
+            <!-- ====================================
+                 ACCOUNT
+            ==================================== -->
+
+            <section class="account-card">
+
+
+                <div class="account-card-header">
+
+
+                    <div>
+
+                        <p class="card-label">
+                            ACCOUNT
+                        </p>
+
+
+                        <h2>
+                            Your 05 ID
+                        </h2>
+
+                    </div>
+
+
+                    <div
+                        id="accountStatus"
+                        class="account-status"
+                    >
+                        Loading
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="account-details">
+
+
+                    <div class="account-detail">
+
+                        <span>
+                            Name
+                        </span>
+
+
+                        <strong id="accountName">
+                            ...
+                        </strong>
+
+                    </div>
+
+
+
+                    <div class="account-detail">
+
+                        <span>
+                            Email
+                        </span>
+
+
+                        <strong id="accountEmail">
+                            ...
+                        </strong>
+
+                    </div>
+
+
+
+                    <div class="account-detail">
+
+                        <span>
+                            User ID
+                        </span>
+
+
+                        <strong
+                            id="accountId"
+                            class="account-id"
+                        >
+                            ...
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- ====================================
+                 LINKED SERVICES
+            ==================================== -->
+
+            <section class="services-section">
+
+
+                <div class="section-heading">
+
+
+                    <p class="section-label">
+                        CONNECTIONS
+                    </p>
+
+
+                    <h2>
+                        Linked Services
+                    </h2>
+
+
+                    <p>
+                        Connect your accounts to use them
+                        across The05Company services.
+                    </p>
+
+
+                </div>
+
+
+
+                <!-- ==================================
+                     POLLINATIONS
+                ================================== -->
+
+                <article class="service-card">
+
+
+                    <div class="service-information">
+
+
+                        <div class="service-text">
+
+                            <h3>
+                                pollinations.ai
+                            </h3>
+
+
+                            <p>
+                                Connect your Pollinations
+                                account to use your own
+                                Pollen with The05Company
+                                services.
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- NOT LINKED -->
+
+                    <div
+                        id="pollinationsUnlinked"
+                        class="service-state"
+                    >
+
+
+                        <span class="service-status">
+                            Not linked
+                        </span>
+
+
+                        <button
+                            id="linkPollinationsButton"
+                            class="link-button"
+                            type="button"
+                        >
+                            Link
+                        </button>
+
+
+                    </div>
+
+
+
+                    <!-- LINKED -->
+
+                    <div
+                        id="pollinationsLinked"
+                        class="service-state"
+                        hidden
+                    >
+
+
+                        <span
+                            id="pollinationsLinkedSince"
+                            class="linked-since"
+                        >
+                            Linked since —
+                        </span>
+
+
+                        <button
+                            id="unlinkPollinationsButton"
+                            class="unlink-button"
+                            type="button"
+                        >
+                            Unlink
+                        </button>
+
+
+                    </div>
+
+
+                </article>
+
+
+            </section>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- ========================================
+         UNLINK CONFIRMATION MODAL
+    ======================================== -->
+
+    <div
+        id="unlinkModal"
+        class="modal-overlay"
+        hidden
+    >
+
+        <div
+            class="confirmation-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="unlinkModalTitle"
+        >
+
+
+            <div class="modal-icon">
+
+                <span>
+                    !
+                </span>
+
+            </div>
+
+
+            <div class="modal-content">
+
+
+                <h2 id="unlinkModalTitle">
+                    Unlink pollinations.ai from your 05 ID?
+                </h2>
+
+
+                <p>
+                    You may lose access to certain AI services
+                    and features that use your Pollinations
+                    account.
+                </p>
+
+
+            </div>
+
+
+            <div class="modal-actions">
+
+
+                <button
+                    id="cancelUnlinkButton"
+                    class="modal-cancel-button"
+                    type="button"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    id="confirmUnlinkButton"
+                    class="modal-confirm-button"
+                    type="button"
+                >
+                    Unlink
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================================
+         05 ID CONFIG
+    ======================================== -->
+
+    <script src="../js/config.js"></script>
+
+
+    <!-- ========================================
+         SUPABASE CLIENT
+    ======================================== -->
+
+    <script src="../js/supabase.js"></script>
+
+
+    <!-- ========================================
+         MAIN APP
+    ======================================== -->
+
+    <script src="../js/app.js"></script>
+
+
+</body>
+
+</html>

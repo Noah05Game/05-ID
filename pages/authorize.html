@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Continue with 05 ID</title>
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="../assets/05-id-logo.png"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+    <main class="account-selection-page">
+
+        <section class="account-selection-card">
+
+            <div class="account-selection-header">
+
+                <img
+                    src="../assets/05-id-logo.png"
+                    alt="05 ID"
+                    class="account-selection-logo"
+                >
+
+                <p class="account-selection-label">
+                    Continue to
+                </p>
+
+                <h1 id="appName">
+                    05 ID
+                </h1>
+
+                <p class="account-selection-description">
+                    Sign in with your 05 ID to continue.
+                </p>
+
+            </div>
+
+
+            <div class="account-selection-account">
+
+                <div class="account-selection-avatar">
+                    <span id="accountInitial">
+                        0
+                    </span>
+                </div>
+
+
+                <div class="account-selection-details">
+
+                    <strong id="accountName">
+                        Your 05 ID
+                    </strong>
+
+                    <span id="accountEmail">
+                        Loading account...
+                    </span>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="continueButton"
+                    class="account-selection-continue"
+                >
+                    Continue
+                </button>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="useAnotherAccountButton"
+                class="account-selection-other"
+            >
+                Use another account
+            </button>
+
+
+            <p class="account-selection-footer">
+                By continuing, you allow this application
+                to use your 05 ID account.
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <script src="../js/config.js"></script>
+    <script src="../js/supabase.js"></script>
+    <script src="../js/account-selection.js"></script>
+
+</body>
+</html>

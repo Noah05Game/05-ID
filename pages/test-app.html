@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>05 ID Test</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #f5f5f5;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+        }
+
+
+        /* ========================================
+           LOGIN CONTAINER
+        ======================================== */
+
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        /* ========================================
+           05 ID BUTTON
+        ======================================== */
+
+        .five-id-button {
+
+            position: relative;
+
+            width: 300px;
+            height: 52px;
+
+            padding: 0;
+
+            border: none;
+            border-radius: 8px;
+
+            background: #000000;
+            color: #ffffff;
+
+            cursor: pointer;
+
+            overflow: hidden;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            transition:
+                transform 0.15s ease,
+                box-shadow 0.15s ease;
+        }
+
+
+        .five-id-button:hover {
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 4px 12px
+                rgba(0, 0, 0, 0.18);
+        }
+
+
+        .five-id-button:active {
+
+            transform: translateY(0);
+
+            box-shadow: none;
+        }
+
+
+        /* ========================================
+           BUTTON STATES
+        ======================================== */
+
+        .five-id-state {
+
+            position: absolute;
+
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            transition:
+                opacity 0.35s ease,
+                transform 0.35s ease;
+        }
+
+
+        .five-id-state.hidden {
+
+            opacity: 0;
+
+            transform:
+                translateY(8px);
+        }
+
+
+        .five-id-state.visible {
+
+            opacity: 1;
+
+            transform:
+                translateY(0);
+        }
+
+
+        /* ========================================
+           LOGO
+        ======================================== */
+
+        .five-id-logo {
+
+            width: 22px;
+            height: 22px;
+
+            margin-right: 10px;
+
+            object-fit: contain;
+
+            flex-shrink: 0;
+        }
+
+
+        /* ========================================
+           TEXT
+        ======================================== */
+
+        .five-id-text {
+
+            display: block;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            line-height: 1;
+
+            white-space: nowrap;
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+    <main class="login-container">
+
+        <button
+            type="button"
+            id="fiveIdButton"
+            class="five-id-button"
+        >
+
+            <!-- ====================================
+                 CONTINUE STATE
+            ===================================== -->
+
+            <span
+                id="continueState"
+                class="five-id-state visible"
+            >
+
+                <img
+                    src="../assets/05-id-logo.png"
+                    alt=""
+                    class="five-id-logo"
+                >
+
+                <span class="five-id-text">
+                    Continue with 05 ID
+                </span>
+
+            </span>
+
+
+            <!-- ====================================
+                 HELLO STATE
+            ===================================== -->
+
+            <span
+                id="helloState"
+                class="five-id-state hidden"
+            >
+
+                <span
+                    id="helloText"
+                    class="five-id-text"
+                >
+                    Hello
+                </span>
+
+            </span>
+
+        </button>
+
+    </main>
+
+
+    <script>
+
+        /* ========================================
+           CONFIGURATION
+        ======================================== */
+
+        const AUTHORIZATION_PAGE =
+            "authorize.html";
+
+
+        /*
+         * Demo name for the animation.
+         *
+         * Once the user has authenticated,
+         * this can be replaced with their actual
+         * 05 ID name.
+         */
+
+        const DEMO_NAME = "Noah";
+
+
+        /* ========================================
+           ELEMENTS
+        ======================================== */
+
+        const button =
+            document.getElementById(
+                "fiveIdButton"
+            );
+
+        const continueState =
+            document.getElementById(
+                "continueState"
+            );
+
+        const helloState =
+            document.getElementById(
+                "helloState"
+            );
+
+        const helloText =
+            document.getElementById(
+                "helloText"
+            );
+
+
+        /* ========================================
+           SHOW HELLO
+        ======================================== */
+
+        function showHello() {
+
+            helloText.textContent =
+                `Hello ${DEMO_NAME}`;
+
+
+            continueState.classList.remove(
+                "visible"
+            );
+
+            continueState.classList.add(
+                "hidden"
+            );
+
+
+            helloState.classList.remove(
+                "hidden"
+            );
+
+            helloState.classList.add(
+                "visible"
+            );
+        }
+
+
+        /* ========================================
+           SHOW CONTINUE
+        ======================================== */
+
+        function showContinue() {
+
+            helloState.classList.remove(
+                "visible"
+            );
+
+            helloState.classList.add(
+                "hidden"
+            );
+
+
+            continueState.classList.remove(
+                "hidden"
+            );
+
+            continueState.classList.add(
+                "visible"
+            );
+        }
+
+
+        /* ========================================
+           BUTTON ANIMATION
+        ======================================== */
+
+        function startAnimation() {
+
+            setTimeout(() => {
+
+                showHello();
+
+
+                setTimeout(() => {
+
+                    showContinue();
+
+                    startAnimation();
+
+                }, 5000);
+
+            }, 3000);
+        }
+
+
+        /* ========================================
+           START AUTHORIZATION
+        ======================================== */
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                /*
+                 * IMPORTANT:
+                 *
+                 * The test page should enter the
+                 * authorization page with the same
+                 * parameters expected by the 05 ID
+                 * authorization system.
+                 *
+                 * The authorization page can then
+                 * handle the signed-in session.
+                 */
+
+                const params =
+                    new URLSearchParams({
+
+                        client_id:
+                            "test",
+
+                        redirect_uri:
+                            window.location.origin +
+                            window.location.pathname,
+
+                        response_type:
+                            "code",
+
+                        scope:
+                            "openid profile",
+
+                        state:
+                            crypto.randomUUID()
+
+                    });
+
+
+                window.location.href =
+                    `${AUTHORIZATION_PAGE}?${params.toString()}`;
+
+            }
+        );
+
+
+        /* ========================================
+           START
+        ======================================== */
+
+        startAnimation();
+
+    </script>
+
+</body>
+</html>
