@@ -38,6 +38,14 @@ document.addEventListener(
 
 
         // ========================================
+        // OAUTH APPROVE ENDPOINT
+        // ========================================
+
+        const OAUTH_APPROVE_URL =
+            "https://fmkecvetadtihdgeqezo.supabase.co/functions/v1/oauth-approve";
+
+
+        // ========================================
         // READ AUTHORIZATION REQUEST
         // ========================================
 
@@ -47,14 +55,45 @@ document.addEventListener(
             );
 
 
+        const clientId =
+            params.get(
+                "client_id"
+            );
+
         const requestedApp =
-            params.get("app_name");
+            params.get(
+                "app_name"
+            );
 
         const redirectUri =
-            params.get("redirect_uri");
+            params.get(
+                "redirect_uri"
+            );
+
+        const responseType =
+            params.get(
+                "response_type"
+            );
+
+        const scope =
+            params.get(
+                "scope"
+            ) || "openid";
 
         const state =
-            params.get("state");
+            params.get(
+                "state"
+            );
+
+        const codeChallenge =
+            params.get(
+                "code_challenge"
+            );
+
+        const codeChallengeMethod =
+            params.get(
+                "code_challenge_method"
+            );
 
 
         // ========================================
@@ -62,13 +101,50 @@ document.addEventListener(
         // ========================================
 
         if (
+            !clientId ||
             !requestedApp ||
             !redirectUri ||
-            !state
+            !responseType ||
+            !codeChallenge ||
+            !codeChallengeMethod
         ) {
 
             showAuthorizationError(
                 "Invalid authorization request."
+            );
+
+            return;
+        }
+
+
+        // ========================================
+        // RESPONSE TYPE
+        // ========================================
+
+        if (
+            responseType !==
+            "code"
+        ) {
+
+            showAuthorizationError(
+                "Unsupported authorization request."
+            );
+
+            return;
+        }
+
+
+        // ========================================
+        // PKCE
+        // ========================================
+
+        if (
+            codeChallengeMethod !==
+            "S256"
+        ) {
+
+            showAuthorizationError(
+                "Unsupported PKCE method."
             );
 
             return;
@@ -163,31 +239,174 @@ document.addEventListener(
 
             continueButton.addEventListener(
                 "click",
-                () => {
+                async () => {
 
                     continueButton.disabled =
                         true;
 
+                    useAnotherAccountButton.disabled =
+                        true;
+
                     continueButton.textContent =
-                        "Continuing...";
+                        "Authorizing...";
 
 
-                    const resultParams =
-                        new URLSearchParams({
+                    try {
 
-                            status:
-                                "success",
+                        // ========================================
+                        // GET CURRENT SESSION
+                        // ========================================
 
-                            state:
-                                state
+                        const {
+                            data: sessionData,
+                            error: sessionError
+                        } =
+                            await supabaseClient.auth.getSession();
 
-                        });
+
+                        if (sessionError) {
+                            throw sessionError;
+                        }
 
 
-                    window.location.href =
-                        redirectUri +
-                        "?" +
-                        resultParams.toString();
+                        if (
+                            !sessionData.session
+                        ) {
+
+                            throw new Error(
+                                "Your 05 ID session has expired."
+                            );
+
+                        }
+
+
+                        // ========================================
+                        // REQUEST AUTHORIZATION CODE
+                        // ========================================
+
+                        const response =
+                            await fetch(
+                                OAUTH_APPROVE_URL,
+                                {
+                                    method:
+                                        "POST",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json",
+
+                                        "Authorization":
+                                            `Bearer ${sessionData.session.access_token}`,
+
+                                        "apikey":
+                                            SUPABASE_PUBLISHABLE_KEY
+                                    },
+
+                                    body:
+                                        JSON.stringify({
+
+                                            client_id:
+                                                clientId,
+
+                                            redirect_uri:
+                                                redirectUri,
+
+                                            scope:
+                                                scope,
+
+                                            state:
+                                                state,
+
+                                            code_challenge:
+                                                codeChallenge,
+
+                                            code_challenge_method:
+                                                codeChallengeMethod
+
+                                        })
+                                }
+                            );
+
+
+                        // ========================================
+                        // READ RESPONSE
+                        // ========================================
+
+                        let result;
+
+                        try {
+
+                            result =
+                                await response.json();
+
+                        } catch {
+
+                            throw new Error(
+                                "05 ID returned an invalid response."
+                            );
+
+                        }
+
+
+                        // ========================================
+                        // CHECK ERROR
+                        // ========================================
+
+                        if (
+                            !response.ok ||
+                            !result.success
+                        ) {
+
+                            throw new Error(
+                                result.error_description ||
+                                "Unable to authorize this application."
+                            );
+
+                        }
+
+
+                        // ========================================
+                        // REDIRECT TO APPLICATION
+                        // ========================================
+
+                        if (
+                            !result.redirect_uri
+                        ) {
+
+                            throw new Error(
+                                "05 ID did not provide a redirect URL."
+                            );
+
+                        }
+
+
+                        window.location.href =
+                            result.redirect_uri;
+
+                    } catch (error) {
+
+                        console.error(
+                            "OAuth approval error:",
+                            error
+                        );
+
+
+                        continueButton.disabled =
+                            false;
+
+                        useAnotherAccountButton.disabled =
+                            false;
+
+                        continueButton.textContent =
+                            "Continue";
+
+
+                        showAuthorizationError(
+                            error.message ||
+                            "Unable to authorize this application."
+                        );
+
+                    }
 
                 }
             );
@@ -202,6 +421,9 @@ document.addEventListener(
                 async () => {
 
                     useAnotherAccountButton.disabled =
+                        true;
+
+                    continueButton.disabled =
                         true;
 
                     useAnotherAccountButton.textContent =
@@ -234,6 +456,9 @@ document.addEventListener(
 
 
                         useAnotherAccountButton.disabled =
+                            false;
+
+                        continueButton.disabled =
                             false;
 
                         useAnotherAccountButton.textContent =
