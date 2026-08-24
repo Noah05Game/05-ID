@@ -281,48 +281,54 @@ document.addEventListener(
 
 
                         // ========================================
-                        // BUILD FORM DATA
+                        // BUILD FORM REQUEST
                         // ========================================
 
-                        const formData =
+                        const approveParams =
                             new URLSearchParams();
 
 
-                        formData.set(
+                        approveParams.set(
                             "client_id",
                             clientId
                         );
 
-                        formData.set(
+
+                        approveParams.set(
                             "redirect_uri",
                             redirectUri
                         );
 
-                        formData.set(
+
+                        approveParams.set(
                             "response_type",
                             responseType
                         );
 
-                        formData.set(
+
+                        approveParams.set(
                             "scope",
                             scope
                         );
 
+
                         if (state) {
 
-                            formData.set(
+                            approveParams.set(
                                 "state",
                                 state
                             );
 
                         }
 
-                        formData.set(
+
+                        approveParams.set(
                             "code_challenge",
                             codeChallenge
                         );
 
-                        formData.set(
+
+                        approveParams.set(
                             "code_challenge_method",
                             codeChallengeMethod
                         );
@@ -332,71 +338,28 @@ document.addEventListener(
                         // REQUEST AUTHORIZATION CODE
                         // ========================================
 
-                        const approveParams =
-    new URLSearchParams();
+                        const response =
+                            await fetch(
+                                OAUTH_APPROVE_URL,
+                                {
+                                    method:
+                                        "POST",
 
-approveParams.set(
-    "client_id",
-    clientId
-);
+                                    headers: {
+                                        "Content-Type":
+                                            "application/x-www-form-urlencoded",
 
-approveParams.set(
-    "redirect_uri",
-    redirectUri
-);
+                                        "Authorization":
+                                            `Bearer ${sessionData.session.access_token}`,
 
-approveParams.set(
-    "response_type",
-    responseType
-);
+                                        "apikey":
+                                            SUPABASE_PUBLISHABLE_KEY
+                                    },
 
-approveParams.set(
-    "scope",
-    scope
-);
-
-if (state) {
-
-    approveParams.set(
-        "state",
-        state
-    );
-
-}
-
-approveParams.set(
-    "code_challenge",
-    codeChallenge
-);
-
-approveParams.set(
-    "code_challenge_method",
-    codeChallengeMethod
-);
-
-
-const response =
-    await fetch(
-        OAUTH_APPROVE_URL,
-        {
-            method:
-                "POST",
-
-            headers: {
-                "Content-Type":
-                    "application/x-www-form-urlencoded",
-
-                "Authorization":
-                    `Bearer ${sessionData.session.access_token}`,
-
-                "apikey":
-                    SUPABASE_PUBLISHABLE_KEY
-            },
-
-            body:
-                approveParams.toString()
-        }
-    );
+                                    body:
+                                        approveParams.toString()
+                                }
+                            );
 
 
                         // ========================================
@@ -420,7 +383,7 @@ const response =
 
 
                         // ========================================
-                        // CHECK ERROR
+                        // CHECK RESPONSE
                         // ========================================
 
                         if (
@@ -430,6 +393,7 @@ const response =
 
                             throw new Error(
                                 result.error_description ||
+                                result.error ||
                                 "Unable to authorize this application."
                             );
 
@@ -437,7 +401,7 @@ const response =
 
 
                         // ========================================
-                        // CHECK CODE
+                        // CHECK AUTHORIZATION CODE
                         // ========================================
 
                         if (
@@ -452,26 +416,15 @@ const response =
 
 
                         // ========================================
-                        // BUILD CALLBACK URL
+                        // CHECK REDIRECT URI
                         // ========================================
 
-                        const callbackUrl =
-                            new URL(
-                                result.redirect_uri
-                            );
+                        if (
+                            !result.redirect_uri
+                        ) {
 
-
-                        callbackUrl.searchParams.set(
-                            "code",
-                            result.code
-                        );
-
-
-                        if (result.state) {
-
-                            callbackUrl.searchParams.set(
-                                "state",
-                                result.state
+                            throw new Error(
+                                "05 ID did not provide a redirect URL."
                             );
 
                         }
@@ -482,7 +435,8 @@ const response =
                         // ========================================
 
                         window.location.href =
-                            callbackUrl.toString();
+                            result.redirect_uri;
+
 
                     } catch (error) {
 
