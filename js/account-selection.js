@@ -332,31 +332,71 @@ document.addEventListener(
                         // REQUEST AUTHORIZATION CODE
                         // ========================================
 
-                        const response =
-                            await fetch(
-                                OAUTH_APPROVE_URL,
-                                {
-                                    method:
-                                        "POST",
+                        const approveParams =
+    new URLSearchParams();
 
-                                    headers: {
+approveParams.set(
+    "client_id",
+    clientId
+);
 
-                                        "Content-Type":
-                                            "application/x-www-form-urlencoded",
+approveParams.set(
+    "redirect_uri",
+    redirectUri
+);
 
-                                        "Authorization":
-                                            `Bearer ${sessionData.session.access_token}`,
+approveParams.set(
+    "response_type",
+    responseType
+);
 
-                                        "apikey":
-                                            SUPABASE_PUBLISHABLE_KEY
+approveParams.set(
+    "scope",
+    scope
+);
 
-                                    },
+if (state) {
 
-                                    body:
-                                        formData.toString()
+    approveParams.set(
+        "state",
+        state
+    );
 
-                                }
-                            );
+}
+
+approveParams.set(
+    "code_challenge",
+    codeChallenge
+);
+
+approveParams.set(
+    "code_challenge_method",
+    codeChallengeMethod
+);
+
+
+const response =
+    await fetch(
+        OAUTH_APPROVE_URL,
+        {
+            method:
+                "POST",
+
+            headers: {
+                "Content-Type":
+                    "application/x-www-form-urlencoded",
+
+                "Authorization":
+                    `Bearer ${sessionData.session.access_token}`,
+
+                "apikey":
+                    SUPABASE_PUBLISHABLE_KEY
+            },
+
+            body:
+                approveParams.toString()
+        }
+    );
 
 
                         // ========================================
