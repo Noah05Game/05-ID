@@ -237,6 +237,73 @@ try {
 
     }
 
+
+    // ========================================
+// TEST OAUTH USERINFO
+// ========================================
+
+resultMessage.textContent =
+    "Verifying access token...";
+
+const userInfoResponse =
+    await fetch(
+        "https://fmkecvetadtihdgeqezo.supabase.co/functions/v1/oauth-userinfo",
+        {
+            method: "GET",
+
+            headers: {
+                "Authorization":
+                    `Bearer ${result.access_token}`,
+
+                "apikey":
+                    typeof SUPABASE_PUBLISHABLE_KEY !==
+                        "undefined"
+                        ? SUPABASE_PUBLISHABLE_KEY
+                        : ""
+            }
+        }
+    );
+
+
+const userInfoText =
+    await userInfoResponse.text();
+
+
+let userInfo;
+
+try {
+
+    userInfo =
+        JSON.parse(
+            userInfoText
+        );
+
+} catch {
+
+    throw new Error(
+        "05 ID returned an invalid userinfo response."
+    );
+
+}
+
+
+if (
+    !userInfoResponse.ok
+) {
+
+    throw new Error(
+        userInfo.error_description ||
+        userInfo.error ||
+        "Unable to retrieve 05 ID user information."
+    );
+
+}
+
+
+console.log(
+    "05 ID USERINFO:",
+    userInfo
+);
     // ========================================
     // SUCCESS
     // ========================================
