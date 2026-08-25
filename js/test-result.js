@@ -297,14 +297,179 @@ if (!userInfoResponse.ok) {
         }
     );
 
-    throw new Error(
-        `Userinfo failed (${userInfoResponse.status}): ` +
-        (
-            userInfo.error_description ||
-            userInfo.error ||
-            "Unknown error"
-        )
+    javascript
+// ========================================
+// 05 ID USERINFO
+// ========================================
+
+const USERINFO_URL =
+    "https://fmkecvetadtihdgeqezo.supabase.co/functions/v1/oauth-userinfo";
+
+
+console.log(
+    "========================================"
+);
+
+console.log(
+    "05 ID USERINFO REQUEST"
+);
+
+console.log(
+    "Access token exists:",
+    !!result.access_token
+);
+
+console.log(
+    "Access token starts with 05id_:",
+    result.access_token?.startsWith("05id_")
+);
+
+console.log(
+    "========================================"
+);
+
+
+const userInfoResponse =
+    await fetch(
+        USERINFO_URL,
+        {
+            method:
+                "GET",
+
+            headers: {
+                "Authorization":
+                    `Bearer ${result.access_token}`,
+
+                "apikey":
+                    SUPABASE_PUBLISHABLE_KEY,
+
+                "Accept":
+                    "application/json"
+            }
+        }
     );
+
+
+console.log(
+    "USERINFO HTTP STATUS:",
+    userInfoResponse.status
+);
+
+
+console.log(
+    "USERINFO HTTP OK:",
+    userInfoResponse.ok
+);
+
+
+console.log(
+    "USERINFO RESPONSE HEADERS:",
+    Object.fromEntries(
+        userInfoResponse.headers.entries()
+    )
+);
+
+
+const userInfoText =
+    await userInfoResponse.text();
+
+
+console.log(
+    "USERINFO RAW RESPONSE:",
+    userInfoText
+);
+
+
+let userInfoResult = null;
+
+
+try {
+
+    userInfoResult =
+        JSON.parse(
+            userInfoText
+        );
+
+} catch (parseError) {
+
+    console.error(
+        "USERINFO JSON PARSE ERROR:",
+        parseError
+    );
+
+}
+
+
+console.log(
+    "USERINFO PARSED RESPONSE:",
+    userInfoResult
+);
+
+
+if (
+    !userInfoResponse.ok
+) {
+
+    const errorDescription =
+        userInfoResult?.error_description ||
+        userInfoResult?.message ||
+        userInfoResult?.error ||
+        userInfoText ||
+        `HTTP ${userInfoResponse.status}`;
+
+
+    console.error(
+        "========================================"
+    );
+
+    console.error(
+        "05 ID USERINFO FAILED"
+    );
+
+    console.error(
+        "HTTP status:",
+        userInfoResponse.status
+    );
+
+    console.error(
+        "Response:",
+        userInfoText
+    );
+
+    console.error(
+        "Parsed:",
+        userInfoResult
+    );
+
+    console.error(
+        "========================================"
+    );
+
+
+    throw new Error(
+        `Userinfo failed (${userInfoResponse.status}): ${errorDescription}`
+    );
+
+}
+
+
+console.log(
+    "========================================"
+);
+
+console.log(
+    "05 ID USERINFO SUCCESS"
+);
+
+console.log(
+    userInfoResult
+);
+
+console.log(
+    "========================================"
+);
+
+
 
 }
 
