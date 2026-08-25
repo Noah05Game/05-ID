@@ -1,82 +1,87 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
 
-    <meta charset="UTF-8">
+```
+<meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-    <title>05 ID — Authentication Result</title>
+<title>05 ID — Authentication Result</title>
 
-    <link
-        rel="icon"
-        type="image/png"
-        href="../assets/05-id-logo.png"
-    >
+<link
+    rel="icon"
+    type="image/png"
+    href="../assets/05-id-logo.png"
+>
 
-    <link
-        rel="stylesheet"
-        href="../css/style.css"
-    >
+<link
+    rel="stylesheet"
+    href="../css/style.css"
+>
+```
 
 </head>
 
-
 <body>
 
-    <main class="auth-page">
+```
+<main class="auth-page">
 
-        <section class="auth-card">
+    <section class="auth-card">
 
-            <div class="auth-header">
+        <div class="auth-header">
 
-                <img
-                    src="../assets/05-id-logo.png"
-                    alt="05 ID"
-                    class="auth-logo"
-                >
-
-                <h1 id="resultTitle">
-                    Completing sign in
-                </h1>
-
-                <p id="resultMessage">
-                    Verifying your 05 ID authentication...
-                </p>
-
-            </div>
-
-
-            <div
-                id="resultDetails"
-                class="form-message"
-                style="display: none;"
-            ></div>
-
-
-            <button
-                type="button"
-                id="backButton"
-                class="auth-button"
-                style="display: none;"
-                onclick="window.location.href='test-app.html'"
+            <img
+                src="../assets/05-id-logo.png"
+                alt="05 ID"
+                class="auth-logo"
             >
-                Back to test app
-            </button>
 
-        </section>
+            <h1 id="resultTitle">
+                Completing sign in
+            </h1>
 
-    </main>
+            <p id="resultMessage">
+                Verifying your 05 ID authentication...
+            </p>
+
+        </div>
 
 
-    <script src="../js/test-result.js"></script>
+        <div
+            id="resultDetails"
+            class="form-message"
+            style="display: none;"
+        ></div>
 
-    <script src="../js/config.js"></script>
-    <script src="../js/test-result.js"></script>
+
+        <button
+            type="button"
+            id="backButton"
+            class="auth-button"
+            style="display: none;"
+            onclick="window.location.href='test-app.html'"
+        >
+            Back to test app
+        </button>
+
+    </section>
+
+</main>
+
+
+<!-- Load configuration BEFORE the script that uses it -->
+<script src="../js/config.js"></script>
+
+<!-- Load the result handler once -->
+<script src="../js/test-result.js"></script>
+```
 
 </body>
 
