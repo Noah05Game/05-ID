@@ -4,7 +4,7 @@
 
 <head>
 
-
+```
 <meta charset="UTF-8">
 
 <meta
@@ -24,13 +24,13 @@
     rel="stylesheet"
     href="../css/style.css"
 >
-
+```
 
 </head>
 
 <body>
 
-
+```
 <main class="auth-page">
 
     <section class="auth-card">
@@ -76,12 +76,18 @@
 </main>
 
 
-<!-- Load configuration BEFORE the script that uses it -->
+<!--
+    IMPORTANT:
+    config.js MUST load before test-result.js
+    because test-result.js uses
+    SUPABASE_PUBLISHABLE_KEY.
+-->
+
 <script src="../js/config.js"></script>
 
-<!-- Load the result handler once -->
+<!-- Load test-result.js ONCE -->
 <script src="../js/test-result.js"></script>
-
+```
 
 </body>
 
