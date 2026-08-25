@@ -1,804 +1,602 @@
-javascript
-// ========================================
-// 05 ID TEST RESULT
-// ========================================
-
 document.addEventListener(
-    "DOMContentLoaded",
-    async function () {
+"DOMContentLoaded",
+async function () {
 
-        console.log(
-            "========================================"
+
+    console.log(
+        "========================================"
+    );
+
+    console.log(
+        "05 ID TEST RESULT"
+    );
+
+    console.log(
+        "========================================"
+    );
+
+
+    // ========================================
+    // ELEMENTS
+    // ========================================
+
+    const resultTitle =
+        document.getElementById(
+            "resultTitle"
         );
 
-        console.log(
-            "05 ID TEST RESULT LOADED"
+    const resultMessage =
+        document.getElementById(
+            "resultMessage"
         );
 
-        console.log(
-            "========================================"
+    const resultDetails =
+        document.getElementById(
+            "resultDetails"
         );
 
-
-        // ========================================
-        // ELEMENTS
-        // ========================================
-
-        const resultTitle =
-            document.getElementById(
-                "resultTitle"
-            );
-
-        const resultMessage =
-            document.getElementById(
-                "resultMessage"
-            );
-
-        const resultDetails =
-            document.getElementById(
-                "resultDetails"
-            );
-
-        const backButton =
-            document.getElementById(
-                "backButton"
-            );
-
-
-        console.log(
-            "Result elements:",
-            {
-                resultTitle,
-                resultMessage,
-                resultDetails,
-                backButton
-            }
+    const backButton =
+        document.getElementById(
+            "backButton"
         );
 
 
-        // ========================================
-        // ELEMENT CHECK
-        // ========================================
-
-        if (
-            !resultTitle ||
-            !resultMessage ||
-            !resultDetails ||
-            !backButton
-        ) {
-
-            console.error(
-                "05 ID: Required result page element is missing."
-            );
-
-            return;
-
+    console.log(
+        "Result elements:",
+        {
+            resultTitle,
+            resultMessage,
+            resultDetails,
+            backButton
         }
+    );
 
 
-        // ========================================
-        // CONFIGURATION
-        // ========================================
+    // ========================================
+    // ELEMENT CHECK
+    // ========================================
 
-        const CLIENT_ID =
-            "05id_test_app";
+    if (
+        !resultTitle ||
+        !resultMessage ||
+        !resultDetails ||
+        !backButton
+    ) {
 
+        console.error(
+            "05 ID RESULT PAGE: Required HTML element is missing."
+        );
 
-        const REDIRECT_URI =
-            "https://id.the05company.com/pages/test-result.html";
+        return;
 
-
-        const TOKEN_URL =
-            "https://fmkecvetadtihdgeqezo.supabase.co/functions/v1/oauth-token";
-
-
-        const USERINFO_URL =
-            "https://fmkecvetadtihdgeqezo.supabase.co/functions/v1/oauth-userinfo";
-
-
-        // ========================================
-        // READ CALLBACK
-        // ========================================
-
-        const params =
-            new URLSearchParams(
-                window.location.search
-            );
+    }
 
 
-        const code =
-            params.get(
-                "code"
-            );
+    // ========================================
+    // CONFIGURATION
+    // ========================================
+
+    const CLIENT_ID =
+        "05id_test_app";
+
+    const REDIRECT_URI =
+        "https://id.the05company.com/pages/test-result.html";
+
+    const TOKEN_URL =
+        "https://fmkecvetadtihdgeqezo.supabase.co/functions/v1/oauth-token";
 
 
-        const returnedState =
-            params.get(
-                "state"
-            );
+    // ========================================
+    // READ CALLBACK
+    // ========================================
 
-
-        const oauthError =
-            params.get(
-                "error"
-            );
-
-
-        const errorDescription =
-            params.get(
-                "error_description"
-            );
-
-
-        console.log(
-            "OAuth callback:",
-            {
-                codeExists:
-                    !!code,
-
-                returnedState,
-
-                oauthError,
-
-                errorDescription
-            }
+    const params =
+        new URLSearchParams(
+            window.location.search
         );
 
 
-        // ========================================
-        // OAUTH ERROR
-        // ========================================
+    const code =
+        params.get(
+            "code"
+        );
 
-        if (
+    const returnedState =
+        params.get(
+            "state"
+        );
+
+    const oauthError =
+        params.get(
+            "error"
+        );
+
+    const errorDescription =
+        params.get(
+            "error_description"
+        );
+
+
+    console.log(
+        "OAuth callback:",
+        {
+            code,
+            returnedState,
+            oauthError,
+            errorDescription
+        }
+    );
+
+
+    // ========================================
+    // OAUTH ERROR
+    // ========================================
+
+    if (oauthError) {
+
+        showFailure(
+            errorDescription ||
             oauthError
-        ) {
+        );
 
-            showFailure(
-                errorDescription ||
-                oauthError
-            );
+        return;
 
-            return;
-
-        }
+    }
 
 
-        // ========================================
-        // CHECK CODE
-        // ========================================
+    // ========================================
+    // CHECK CODE
+    // ========================================
 
-        if (
-            !code
-        ) {
+    if (!code) {
 
-            showFailure(
-                "No authorization code was returned by 05 ID."
-            );
+        showFailure(
+            "No authorization code was returned by 05 ID."
+        );
 
-            return;
+        return;
 
-        }
+    }
 
 
-        // ========================================
-        // STATE
-        // ========================================
+    // ========================================
+    // CHECK STATE
+    // ========================================
 
-        const storedState =
-            sessionStorage.getItem(
-                "05id_oauth_state"
-            );
-
-
-        console.log(
-            "OAuth state:",
-            {
-                storedState,
-                returnedState
-            }
+    const storedState =
+        sessionStorage.getItem(
+            "05id_oauth_state"
         );
 
 
-        if (
-            !storedState
-        ) {
-
-            showFailure(
-                "No OAuth state was found in this browser session."
-            );
-
-            return;
-
-        }
-
-
-        if (
-            !returnedState
-        ) {
-
-            showFailure(
-                "No OAuth state was returned by 05 ID."
-            );
-
-            return;
-
-        }
-
-
-        if (
-            storedState !==
+    console.log(
+        "OAuth state:",
+        {
+            storedState,
             returnedState
-        ) {
-
-            showFailure(
-                "OAuth state verification failed."
-            );
-
-            return;
-
         }
+    );
+
+
+    if (!storedState) {
+
+        showFailure(
+            "No OAuth state was found in this browser session."
+        );
+
+        return;
+
+    }
+
+
+    if (!returnedState) {
+
+        showFailure(
+            "No OAuth state was returned by 05 ID."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        storedState !==
+        returnedState
+    ) {
+
+        showFailure(
+            "OAuth state verification failed."
+        );
+
+        return;
+
+    }
+
+
+    // ========================================
+    // GET PKCE VERIFIER
+    // ========================================
+
+    const verifier =
+        sessionStorage.getItem(
+            "05id_pkce_verifier"
+        );
+
+
+    console.log(
+        "PKCE verifier exists:",
+        !!verifier
+    );
+
+
+    if (!verifier) {
+
+        showFailure(
+            "The PKCE verifier could not be found."
+        );
+
+        return;
+
+    }
+
+
+    // ========================================
+    // TOKEN EXCHANGE
+    // ========================================
+
+    try {
+
+        resultMessage.textContent =
+            "Exchanging authorization code...";
+
+
+        const formData =
+            new URLSearchParams();
+
+
+        formData.set(
+            "grant_type",
+            "authorization_code"
+        );
+
+
+        formData.set(
+            "client_id",
+            CLIENT_ID
+        );
+
+
+        formData.set(
+            "redirect_uri",
+            REDIRECT_URI
+        );
+
+
+        formData.set(
+            "code",
+            code
+        );
+
+
+        formData.set(
+            "code_verifier",
+            verifier
+        );
+
+
+        console.log(
+            "Sending authorization code to 05 ID token endpoint..."
+        );
 
 
         // ========================================
-        // PKCE VERIFIER
+        // TOKEN REQUEST
         // ========================================
 
-        const verifier =
-            sessionStorage.getItem(
-                "05id_pkce_verifier"
+        const tokenResponse =
+            await fetch(
+                TOKEN_URL,
+                {
+                    method:
+                        "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/x-www-form-urlencoded"
+                    },
+
+                    body:
+                        formData.toString()
+                }
             );
 
 
         console.log(
-            "PKCE verifier exists:",
-            !!verifier
+            "Token response status:",
+            tokenResponse.status
         );
 
 
-        if (
-            !verifier
-        ) {
-
-            showFailure(
-                "The PKCE verifier could not be found."
-            );
-
-            return;
-
-        }
+        const tokenResponseText =
+            await tokenResponse.text();
 
 
-        // ========================================
-        // TOKEN EXCHANGE
-        // ========================================
+        console.log(
+            "Token response:",
+            tokenResponseText
+        );
+
+
+        let tokenResult;
+
 
         try {
 
-            resultMessage.textContent =
-                "Exchanging authorization code...";
-
-
-            const formData =
-                new URLSearchParams();
-
-
-            formData.set(
-                "grant_type",
-                "authorization_code"
-            );
-
-
-            formData.set(
-                "client_id",
-                CLIENT_ID
-            );
-
-
-            formData.set(
-                "redirect_uri",
-                REDIRECT_URI
-            );
-
-
-            formData.set(
-                "code",
-                code
-            );
-
-
-            formData.set(
-                "code_verifier",
-                verifier
-            );
-
-
-            console.log(
-                "Sending authorization code to 05 ID token endpoint..."
-            );
-
-
-            const tokenResponse =
-                await fetch(
-                    TOKEN_URL,
-                    {
-                        method:
-                            "POST",
-
-                        headers: {
-                            "Content-Type":
-                                "application/x-www-form-urlencoded",
-
-                            "apikey":
-                                typeof SUPABASE_PUBLISHABLE_KEY !==
-                                    "undefined"
-                                    ? SUPABASE_PUBLISHABLE_KEY
-                                    : ""
-                        },
-
-                        body:
-                            formData.toString()
-                    }
+            tokenResult =
+                JSON.parse(
+                    tokenResponseText
                 );
 
+        } catch {
 
-            console.log(
-                "Token response status:",
-                tokenResponse.status
-            );
-
-
-            const tokenText =
-                await tokenResponse.text();
-
-
-            console.log(
-                "Token response:",
-                tokenText
-            );
-
-
-            let tokenResult;
-
-
-            try {
-
-                tokenResult =
-                    JSON.parse(
-                        tokenText
-                    );
-
-            } catch {
-
-                throw new Error(
-                    "05 ID returned an invalid token response."
-                );
-
-            }
-
-
-            if (
-                !tokenResponse.ok
-            ) {
-
-                throw new Error(
-                    tokenResult.error_description ||
-                    tokenResult.error ||
-                    "Token exchange failed."
-                );
-
-            }
-
-
-            if (
-                !tokenResult.access_token
-            ) {
-
-                throw new Error(
-                    "05 ID did not return an access token."
-                );
-
-            }
-
-
-            console.log(
-                "Access token received."
-            );
-
-
-            console.log(
-                "Access token format valid:",
-                tokenResult.access_token.startsWith(
-                    "05id_"
-                )
-            );
-
-
-            // ========================================
-            // USERINFO REQUEST
-            // ========================================
-
-            resultMessage.textContent =
-                "Retrieving your 05 ID information...";
-
-
-            console.log(
-                "========================================"
-            );
-
-            console.log(
-                "05 ID USERINFO REQUEST"
-            );
-
-            console.log(
-                "========================================"
-            );
-
-
-            console.log(
-                "UserInfo URL:",
-                USERINFO_URL
-            );
-
-
-            console.log(
-                "Access token exists:",
-                !!tokenResult.access_token
-            );
-
-
-            console.log(
-                "Access token starts with 05id_:",
-                tokenResult.access_token.startsWith(
-                    "05id_"
-                )
-            );
-
-
-            const userInfoResponse =
-                await fetch(
-                    USERINFO_URL,
-                    {
-                        method:
-                            "GET",
-
-                        headers: {
-                            "Authorization":
-                                `Bearer ${tokenResult.access_token}`,
-
-                            "apikey":
-                                typeof SUPABASE_PUBLISHABLE_KEY !==
-                                    "undefined"
-                                    ? SUPABASE_PUBLISHABLE_KEY
-                                    : "",
-
-                            "Accept":
-                                "application/json"
-                        }
-                    }
-                );
-
-
-            // ========================================
-            // USERINFO RESPONSE
-            // ========================================
-
-            console.log(
-                "UserInfo response status:",
-                userInfoResponse.status
-            );
-
-
-            console.log(
-                "UserInfo response OK:",
-                userInfoResponse.ok
-            );
-
-
-            const userInfoText =
-                await userInfoResponse.text();
-
-
-            console.log(
-                "UserInfo raw response:",
-                userInfoText
-            );
-
-
-            let userInfoResult =
-                null;
-
-
-            try {
-
-                userInfoResult =
-                    JSON.parse(
-                        userInfoText
-                    );
-
-            } catch {
-
-                console.error(
-                    "UserInfo response was not JSON."
-                );
-
-            }
-
-
-            console.log(
-                "UserInfo parsed response:",
-                userInfoResult
-            );
-
-
-            // ========================================
-            // USERINFO ERROR
-            // ========================================
-
-            if (
-                !userInfoResponse.ok
-            ) {
-
-                const userInfoError =
-                    userInfoResult?.error_description ||
-                    userInfoResult?.error ||
-                    userInfoResult?.message ||
-                    userInfoText ||
-                    `HTTP ${userInfoResponse.status}`;
-
-
-                console.error(
-                    "========================================"
-                );
-
-                console.error(
-                    "05 ID USERINFO ERROR"
-                );
-
-                console.error(
-                    "Status:",
-                    userInfoResponse.status
-                );
-
-                console.error(
-                    "Response:",
-                    userInfoText
-                );
-
-                console.error(
-                    "========================================"
-                );
-
-
-                throw new Error(
-                    `Userinfo failed (${userInfoResponse.status}): ${userInfoError}`
-                );
-
-            }
-
-
-            // ========================================
-            // USERINFO SUCCESS
-            // ========================================
-
-            console.log(
-                "========================================"
-            );
-
-            console.log(
-                "05 ID USERINFO SUCCESS"
-            );
-
-            console.log(
-                userInfoResult
-            );
-
-            console.log(
-                "========================================"
-            );
-
-
-            // ========================================
-            // SUCCESS PAGE
-            // ========================================
-
-            resultTitle.textContent =
-                "Authentication successful";
-
-
-            resultMessage.textContent =
-                "05 ID successfully authenticated this application.";
-
-
-            resultDetails.style.display =
-                "block";
-
-
-            resultDetails.innerHTML = `
-
-                <strong>05 ID User</strong><br>
-
-                ${escapeHtml(
-                    userInfoResult.name ||
-                    tokenResult.user?.name ||
-                    "Authenticated user"
-                )}
-
-                <br><br>
-
-                <strong>User ID</strong><br>
-
-                ${escapeHtml(
-                    userInfoResult.sub ||
-                    tokenResult.user?.id ||
-                    "Not returned"
-                )}
-
-                <br><br>
-
-                <strong>Email</strong><br>
-
-                ${escapeHtml(
-                    userInfoResult.email ||
-                    tokenResult.user?.email ||
-                    "Not returned"
-                )}
-
-                <br><br>
-
-                <strong>Scope</strong><br>
-
-                ${escapeHtml(
-                    tokenResult.scope ||
-                    "Not returned"
-                )}
-
-                <br><br>
-
-                <strong>Token type</strong><br>
-
-                ${escapeHtml(
-                    tokenResult.token_type ||
-                    "Bearer"
-                )}
-
-            `;
-
-
-            backButton.style.display =
-                "block";
-
-
-            // ========================================
-            // CLEAN SESSION
-            // ========================================
-
-            sessionStorage.removeItem(
-                "05id_pkce_verifier"
-            );
-
-
-            sessionStorage.removeItem(
-                "05id_oauth_state"
-            );
-
-
-            // ========================================
-            // CLEAN URL
-            // ========================================
-
-            window.history.replaceState(
-                {},
-                document.title,
-                REDIRECT_URI
-            );
-
-
-        } catch (error) {
-
-            console.error(
-                "OAuth token exchange error:",
-                error
-            );
-
-
-            showFailure(
-                error?.message ||
-                "Unable to complete authentication."
+            throw new Error(
+                "05 ID returned an invalid token response."
             );
 
         }
 
 
         // ========================================
-        // FAILURE
+        // TOKEN ERROR
         // ========================================
 
-        function showFailure(
-            message
+        if (
+            !tokenResponse.ok
         ) {
 
-            console.error(
-                "05 ID authentication failed:",
-                message
+            throw new Error(
+                tokenResult.error_description ||
+                tokenResult.error ||
+                "Token exchange failed."
             );
 
-
-            if (
-                resultTitle
-            ) {
-
-                resultTitle.textContent =
-                    "Authentication failed";
-
-            }
-
-
-            if (
-                resultMessage
-            ) {
-
-                resultMessage.textContent =
-                    message;
-
-            }
-
-
-            if (
-                resultDetails
-            ) {
-
-                resultDetails.style.display =
-                    "none";
-
-            }
-
-
-            if (
-                backButton
-            ) {
-
-                backButton.style.display =
-                    "block";
-
-            }
-
         }
 
 
         // ========================================
-        // HTML ESCAPING
+        // CHECK ACCESS TOKEN
         // ========================================
 
-        function escapeHtml(
-            value
+        if (
+            !tokenResult.access_token
         ) {
 
-            return String(
-                value
-            )
-                .replace(
-                    /&/g,
-                    "&amp;"
-                )
-                .replace(
-                    /</g,
-                    "&lt;"
-                )
-                .replace(
-                    />/g,
-                    "&gt;"
-                )
-                .replace(
-                    /"/g,
-                    "&quot;"
-                )
-                .replace(
-                    /'/g,
-                    "&#039;"
-                );
+            throw new Error(
+                "05 ID did not return an access token."
+            );
 
         }
+
+
+        // ========================================
+        // GET USER FROM TOKEN RESPONSE
+        // ========================================
+
+        const authenticatedUser =
+            tokenResult.user;
+
+
+        if (
+            !authenticatedUser
+        ) {
+
+            throw new Error(
+                "05 ID did not return authenticated user information."
+            );
+
+        }
+
+
+        console.log(
+            "Authenticated 05 ID user:",
+            authenticatedUser
+        );
+
+
+        // ========================================
+        // SUCCESS
+        // ========================================
+
+        resultTitle.textContent =
+            "Authentication successful";
+
+
+        resultMessage.textContent =
+            "05 ID successfully authenticated this application.";
+
+
+        resultDetails.style.display =
+            "block";
+
+
+        resultDetails.innerHTML = `
+
+            <strong>05 ID User</strong><br>
+
+            ${escapeHtml(
+                authenticatedUser.name ||
+                "05 ID User"
+            )}
+
+            <br><br>
+
+            <strong>User ID</strong><br>
+
+            ${escapeHtml(
+                authenticatedUser.id ||
+                "Not returned"
+            )}
+
+            <br><br>
+
+            <strong>Email</strong><br>
+
+            ${escapeHtml(
+                authenticatedUser.email ||
+                "Not returned"
+            )}
+
+            <br><br>
+
+            <strong>Scope</strong><br>
+
+            ${escapeHtml(
+                tokenResult.scope ||
+                "Not returned"
+            )}
+
+            <br><br>
+
+            <strong>Token type</strong><br>
+
+            ${escapeHtml(
+                tokenResult.token_type ||
+                "Bearer"
+            )}
+
+            <br><br>
+
+            <strong>Expires in</strong><br>
+
+            ${escapeHtml(
+                String(
+                    tokenResult.expires_in ||
+                    "Not returned"
+                )
+            )} seconds
+
+        `;
+
+
+        backButton.style.display =
+            "block";
+
+
+        // ========================================
+        // CLEAN SESSION
+        // ========================================
+
+        sessionStorage.removeItem(
+            "05id_pkce_verifier"
+        );
+
+
+        sessionStorage.removeItem(
+            "05id_oauth_state"
+        );
+
+
+        // ========================================
+        // REMOVE OAUTH PARAMETERS
+        // ========================================
+
+        window.history.replaceState(
+            {},
+            document.title,
+            REDIRECT_URI
+        );
+
+
+        console.log(
+            "05 ID authentication completed successfully."
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "OAuth token exchange error:",
+            error
+        );
+
+
+        showFailure(
+            error instanceof Error
+                ? error.message
+                : "Unable to complete authentication."
+        );
 
     }
-);
 
+
+    // ========================================
+    // FAILURE
+    // ========================================
+
+    function showFailure(
+        message
+    ) {
+
+        console.error(
+            "05 ID authentication failed:",
+            message
+        );
+
+
+        resultTitle.textContent =
+            "Authentication failed";
+
+
+        resultMessage.textContent =
+            message;
+
+
+        resultDetails.style.display =
+            "none";
+
+
+        backButton.style.display =
+            "block";
+
+    }
+
+
+    // ========================================
+    // HTML ESCAPING
+    // ========================================
+
+    function escapeHtml(
+        value
+    ) {
+
+        return String(
+            value
+        )
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+}
+
+
+);
