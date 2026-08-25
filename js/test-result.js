@@ -287,14 +287,23 @@ try {
 }
 
 
-if (
-    !userInfoResponse.ok
-) {
+if (!userInfoResponse.ok) {
+
+    console.error(
+        "05 ID USERINFO ERROR:",
+        {
+            status: userInfoResponse.status,
+            response: userInfo
+        }
+    );
 
     throw new Error(
-        userInfo.error_description ||
-        userInfo.error ||
-        "Unable to retrieve 05 ID user information."
+        `Userinfo failed (${userInfoResponse.status}): ` +
+        (
+            userInfo.error_description ||
+            userInfo.error ||
+            "Unknown error"
+        )
     );
 
 }
