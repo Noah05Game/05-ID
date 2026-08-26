@@ -18,14 +18,10 @@
         href="../assets/05-id-logo.png"
     >
 
-    <!-- Dashboard CSS -->
-
     <link
         rel="stylesheet"
         href="../css/dashboard.css"
     >
-
-    <!-- Supabase -->
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -43,7 +39,6 @@
         ======================================== -->
 
         <header class="dashboard-header">
-
 
             <div class="dashboard-brand">
 
@@ -68,7 +63,6 @@
                 Sign out
             </button>
 
-
         </header>
 
 
@@ -85,7 +79,6 @@
             ==================================== -->
 
             <div class="dashboard-introduction">
-
 
                 <h1>
 
@@ -106,7 +99,6 @@
                     View and manage your account below.
                 </p>
 
-
             </div>
 
 
@@ -117,16 +109,13 @@
 
             <section class="account-card">
 
-
                 <div class="account-card-header">
-
 
                     <div>
 
                         <p class="card-label">
                             ACCOUNT
                         </p>
-
 
                         <h2>
                             Your 05 ID
@@ -142,20 +131,16 @@
                         Loading
                     </div>
 
-
                 </div>
 
 
-
                 <div class="account-details">
-
 
                     <div class="account-detail">
 
                         <span>
                             Name
                         </span>
-
 
                         <strong id="accountName">
                             ...
@@ -164,13 +149,11 @@
                     </div>
 
 
-
                     <div class="account-detail">
 
                         <span>
                             Email
                         </span>
-
 
                         <strong id="accountEmail">
                             ...
@@ -179,13 +162,11 @@
                     </div>
 
 
-
                     <div class="account-detail">
 
                         <span>
                             User ID
                         </span>
-
 
                         <strong
                             id="accountId"
@@ -196,9 +177,7 @@
 
                     </div>
 
-
                 </div>
-
 
             </section>
 
@@ -208,11 +187,10 @@
                  CONNECTED APPS
             ==================================== -->
 
-            <section class="services-section">
+            <section class="connected-apps-section">
 
 
                 <div class="section-heading">
-
 
                     <p class="section-label">
                         CONNECTIONS
@@ -229,79 +207,47 @@
                         your 05 ID account.
                     </p>
 
+                </div>
+
+
+
+                <!-- LOADING -->
+
+                <div
+                    id="connectedAppsLoading"
+                    class="connected-apps-state"
+                >
+
+                    <p>
+                        Loading your connected apps...
+                    </p>
 
                 </div>
 
 
 
-                <!-- ==================================
-                     CONNECTED APPS CONTAINER
-                ================================== -->
+                <!-- EMPTY -->
 
-                <div id="connectedAppsContainer">
+                <div
+                    id="connectedAppsEmpty"
+                    class="connected-apps-state"
+                    hidden
+                >
 
+                    <p>
+                        You don't have any connected apps yet.
+                    </p>
 
-                    <!-- LOADING -->
-
-                    <article
-                        id="connectedAppsLoading"
-                        class="service-card"
-                    >
-
-                        <div class="service-information">
-
-                            <div class="service-text">
-
-                                <h3>
-                                    Connected Apps
-                                </h3>
-
-                                <p>
-                                    Loading your connected apps...
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </article>
+                </div>
 
 
-                    <!-- NO APPS -->
 
-                    <article
-                        id="connectedAppsEmpty"
-                        class="service-card"
-                        hidden
-                    >
+                <!-- CONNECTED APPS LIST -->
 
-                        <div class="service-information">
-
-                            <div class="service-text">
-
-                                <h3>
-                                    No connected apps
-                                </h3>
-
-                                <p>
-                                    Apps you authorise with
-                                    your 05 ID will appear here.
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </article>
-
-
-                    <!-- APPS ARE INSERTED HERE -->
-
-                    <div
-                        id="connectedAppsList"
-                    ></div>
-
-
+                <div
+                    id="connectedAppsList"
+                    class="connected-apps-list"
+                >
                 </div>
 
 
@@ -318,9 +264,8 @@
 
                 <div class="section-heading">
 
-
                     <p class="section-label">
-                        SERVICES
+                        CONNECTIONS
                     </p>
 
 
@@ -334,7 +279,6 @@
                         across The05Company services.
                     </p>
 
-
                 </div>
 
 
@@ -347,7 +291,6 @@
 
 
                     <div class="service-information">
-
 
                         <div class="service-text">
 
@@ -365,7 +308,6 @@
 
                         </div>
 
-
                     </div>
 
 
@@ -376,7 +318,6 @@
                         id="pollinationsUnlinked"
                         class="service-state"
                     >
-
 
                         <span class="service-status">
                             Not linked
@@ -391,7 +332,6 @@
                             Link
                         </button>
 
-
                     </div>
 
 
@@ -403,7 +343,6 @@
                         class="service-state"
                         hidden
                     >
-
 
                         <span
                             id="pollinationsLinkedSince"
@@ -420,7 +359,6 @@
                         >
                             Unlink
                         </button>
-
 
                     </div>
 
@@ -467,17 +405,16 @@
 
             <div class="modal-content">
 
-
                 <h2 id="disconnectAppModalTitle">
-                    Disconnect app?
+                    Disconnect this app?
                 </h2>
 
 
                 <p id="disconnectAppModalMessage">
                     This app will no longer be able to
-                    access your 05 ID information.
+                    access your 05 ID information using
+                    this connection.
                 </p>
-
 
             </div>
 
@@ -513,7 +450,7 @@
 
 
     <!-- ========================================
-         UNLINK CONFIRMATION MODAL
+         UNLINK POLLINATIONS MODAL
     ======================================== -->
 
     <div
@@ -541,18 +478,16 @@
 
             <div class="modal-content">
 
-
                 <h2 id="unlinkModalTitle">
                     Unlink pollinations.ai from your 05 ID?
                 </h2>
 
 
                 <p>
-                    You may lose access to certain AI services
-                    and features that use your Pollinations
-                    account.
+                    You may lose access to certain AI
+                    services and features that use your
+                    Pollinations account.
                 </p>
-
 
             </div>
 
@@ -594,11 +529,13 @@
     <script src="../js/config.js"></script>
 
 
+
     <!-- ========================================
          SUPABASE CLIENT
     ======================================== -->
 
     <script src="../js/supabase.js"></script>
+
 
 
     <!-- ========================================
