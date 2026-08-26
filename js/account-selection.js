@@ -53,6 +53,16 @@ document.addEventListener(
                 "useAnotherAccountButton"
             );
 
+        const authorizationError =
+            document.getElementById(
+                "authorizationError"
+            );
+
+        const authorizationErrorMessage =
+            document.getElementById(
+                "authorizationErrorMessage"
+            );
+
 
         // ========================================
         // ELEMENT CHECK
@@ -64,15 +74,27 @@ document.addEventListener(
             !accountEmail ||
             !accountInitial ||
             !continueButton ||
-            !useAnotherAccountButton
+            !useAnotherAccountButton ||
+            !authorizationError ||
+            !authorizationErrorMessage
         ) {
 
             console.error(
                 "05 ID: Required authorization page element is missing."
             );
 
-            return;
+            console.error({
+                appName,
+                accountName,
+                accountEmail,
+                accountInitial,
+                continueButton,
+                useAnotherAccountButton,
+                authorizationError,
+                authorizationErrorMessage
+            });
 
+            return;
         }
 
 
@@ -160,7 +182,6 @@ document.addEventListener(
             );
 
             return;
-
         }
 
 
@@ -171,7 +192,6 @@ document.addEventListener(
             );
 
             return;
-
         }
 
 
@@ -185,7 +205,6 @@ document.addEventListener(
             );
 
             return;
-
         }
 
 
@@ -196,7 +215,6 @@ document.addEventListener(
             );
 
             return;
-
         }
 
 
@@ -210,7 +228,6 @@ document.addEventListener(
             );
 
             return;
-
         }
 
 
@@ -258,6 +275,7 @@ document.addEventListener(
 
             let clientResult;
 
+
             try {
 
                 clientResult =
@@ -270,9 +288,12 @@ document.addEventListener(
                 throw new Error(
                     "05 ID returned an invalid client response."
                 );
-
             }
 
+
+            // ========================================
+            // CLIENT RESPONSE ERROR
+            // ========================================
 
             if (
                 !clientResponse.ok
@@ -283,7 +304,6 @@ document.addEventListener(
                     clientResult.error ||
                     "Unable to load OAuth client."
                 );
-
             }
 
 
@@ -294,7 +314,6 @@ document.addEventListener(
                 throw new Error(
                     "05 ID did not return an application name."
                 );
-
             }
 
 
@@ -331,7 +350,6 @@ document.addEventListener(
             if (error) {
 
                 throw error;
-
             }
 
 
@@ -359,7 +377,6 @@ document.addEventListener(
 
 
                 return;
-
             }
 
 
@@ -445,7 +462,6 @@ document.addEventListener(
                         ) {
 
                             throw currentSessionError;
-
                         }
 
 
@@ -456,7 +472,6 @@ document.addEventListener(
                             throw new Error(
                                 "Your 05 ID session has expired."
                             );
-
                         }
 
 
@@ -498,7 +513,6 @@ document.addEventListener(
                                 "state",
                                 state
                             );
-
                         }
 
 
@@ -568,6 +582,7 @@ document.addEventListener(
 
                         let approveResult;
 
+
                         try {
 
                             approveResult =
@@ -580,7 +595,6 @@ document.addEventListener(
                             throw new Error(
                                 "05 ID returned an invalid authorization response."
                             );
-
                         }
 
 
@@ -597,7 +611,6 @@ document.addEventListener(
                                 approveResult.error ||
                                 "Unable to authorize this application."
                             );
-
                         }
 
 
@@ -614,7 +627,6 @@ document.addEventListener(
                                 approveResult.error ||
                                 "05 ID could not authorize this application."
                             );
-
                         }
 
 
@@ -625,7 +637,6 @@ document.addEventListener(
                             throw new Error(
                                 "05 ID did not return an authorization code."
                             );
-
                         }
 
 
@@ -636,7 +647,6 @@ document.addEventListener(
                             throw new Error(
                                 "05 ID did not return a redirect URI."
                             );
-
                         }
 
 
@@ -674,7 +684,6 @@ document.addEventListener(
                             error.message ||
                             "Unable to authorize this application."
                         );
-
                     }
 
                 }
@@ -712,7 +721,6 @@ document.addEventListener(
                         ) {
 
                             throw error;
-
                         }
 
 
@@ -740,6 +748,11 @@ document.addEventListener(
                         useAnotherAccountButton.textContent =
                             "Use another account";
 
+
+                        showAuthorizationError(
+                            error.message ||
+                            "Unable to sign out of your 05 ID account."
+                        );
                     }
 
                 }
@@ -758,7 +771,6 @@ document.addEventListener(
                 error.message ||
                 "Unable to load OAuth client."
             );
-
         }
 
 
@@ -776,27 +788,41 @@ document.addEventListener(
             );
 
 
+            // ========================================
+            // SHOW ERROR BOX
+            // ========================================
+
+            authorizationErrorMessage.textContent =
+                message ||
+                "Something went wrong while trying to continue.";
+
+
+            authorizationError.style.display =
+                "flex";
+
+
+            // ========================================
+            // KEEP MAIN CARD CLEAN
+            // ========================================
+
             if (appName) {
 
                 appName.textContent =
                     "05 ID";
-
             }
 
 
             if (accountName) {
 
                 accountName.textContent =
-                    "Unable to continue";
-
+                    "Your 05 ID";
             }
 
 
             if (accountEmail) {
 
                 accountEmail.textContent =
-                    message;
-
+                    "Unable to load account.";
             }
 
 
@@ -804,15 +830,17 @@ document.addEventListener(
 
                 accountInitial.textContent =
                     "!";
-
             }
 
+
+            // ========================================
+            // DISABLE ACTIONS
+            // ========================================
 
             if (continueButton) {
 
                 continueButton.disabled =
                     true;
-
             }
 
 
@@ -820,11 +848,8 @@ document.addEventListener(
 
                 useAnotherAccountButton.disabled =
                     true;
-
             }
-
         }
 
     }
 );
-

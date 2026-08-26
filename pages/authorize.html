@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -22,13 +24,22 @@
     >
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 </head>
+
 
 <body>
 
+
     <main class="account-selection-page">
 
+
+        <!-- ========================================
+             MAIN AUTHORIZATION CARD
+        ========================================= -->
+
         <section class="account-selection-card">
+
 
             <div class="account-selection-header">
 
@@ -53,12 +64,18 @@
             </div>
 
 
+            <!-- ========================================
+                 ACCOUNT
+            ========================================= -->
+
             <div class="account-selection-account">
 
                 <div class="account-selection-avatar">
+
                     <span id="accountInitial">
                         0
                     </span>
+
                 </div>
 
 
@@ -86,6 +103,10 @@
             </div>
 
 
+            <!-- ========================================
+                 USE ANOTHER ACCOUNT
+            ========================================= -->
+
             <button
                 type="button"
                 id="useAnotherAccountButton"
@@ -100,14 +121,56 @@
                 to use your 05 ID account.
             </p>
 
+
         </section>
+
+
+        <!-- ========================================
+             ERROR BOX
+        ========================================= -->
+
+        <section
+            id="authorizationError"
+            class="authorization-error"
+            style="display: none;"
+            role="alert"
+            aria-live="polite"
+        >
+
+            <div class="authorization-error-icon">
+                !
+            </div>
+
+
+            <div class="authorization-error-content">
+
+                <strong>
+                    Unable to continue
+                </strong>
+
+                <p id="authorizationErrorMessage">
+                    Something went wrong.
+                </p>
+
+            </div>
+
+        </section>
+
 
     </main>
 
 
+    <!-- ========================================
+         SCRIPTS
+    ========================================= -->
+
     <script src="../js/config.js"></script>
+
     <script src="../js/supabase.js"></script>
+
     <script src="../js/account-selection.js"></script>
 
+
 </body>
+
 </html>
