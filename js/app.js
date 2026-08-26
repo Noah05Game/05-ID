@@ -18,11 +18,9 @@ document.addEventListener(
     () => {
 
 
-        /*
-        ========================================
-        PAGE DETECTION
-        ========================================
-        */
+        // ========================================
+        // PAGE DETECTION
+        // ========================================
 
         const createAccountForm =
             document.getElementById(
@@ -45,44 +43,36 @@ document.addEventListener(
             );
 
 
-        /*
-        ========================================
-        CREATE ACCOUNT
-        ========================================
-        */
+        // ========================================
+        // CREATE ACCOUNT
+        // ========================================
 
         if (createAccountForm) {
             setupCreateAccount();
         }
 
 
-        /*
-        ========================================
-        LOGIN
-        ========================================
-        */
+        // ========================================
+        // LOGIN
+        // ========================================
 
         if (loginForm) {
             setupLogin();
         }
 
 
-        /*
-        ========================================
-        DASHBOARD
-        ========================================
-        */
+        // ========================================
+        // DASHBOARD
+        // ========================================
 
         if (dashboardPage) {
             setupDashboard();
         }
 
 
-        /*
-        ========================================
-        LOGOUT
-        ========================================
-        */
+        // ========================================
+        // LOGOUT
+        // ========================================
 
         if (logoutButton) {
             setupLogout();
@@ -90,11 +80,9 @@ document.addEventListener(
 
 
 
-        /*
-        ========================================
-        CREATE ACCOUNT
-        ========================================
-        */
+        // ========================================
+        // CREATE ACCOUNT
+        // ========================================
 
         function setupCreateAccount() {
 
@@ -295,7 +283,6 @@ document.addEventListener(
 
                 formMessage.className =
                     "form-message error";
-
             }
 
 
@@ -306,7 +293,6 @@ document.addEventListener(
 
                 formMessage.className =
                     "form-message success";
-
             }
 
 
@@ -317,18 +303,15 @@ document.addEventListener(
 
                 formMessage.className =
                     "form-message";
-
             }
 
         }
 
 
 
-        /*
-        ========================================
-        LOGIN
-        ========================================
-        */
+        // ========================================
+        // LOGIN
+        // ========================================
 
         function setupLogin() {
 
@@ -480,7 +463,6 @@ document.addEventListener(
 
                 formMessage.className =
                     "form-message error";
-
             }
 
 
@@ -491,18 +473,15 @@ document.addEventListener(
 
                 formMessage.className =
                     "form-message";
-
             }
 
         }
 
 
 
-        /*
-        ========================================
-        DASHBOARD
-        ========================================
-        */
+        // ========================================
+        // DASHBOARD
+        // ========================================
 
         async function setupDashboard() {
 
@@ -522,27 +501,14 @@ document.addEventListener(
                 }
 
 
-                /*
-                --------------------------------
-                NO SESSION
-                --------------------------------
-                */
-
                 if (!session) {
 
                     window.location.href =
                         "login.html";
 
                     return;
-
                 }
 
-
-                /*
-                --------------------------------
-                USER
-                --------------------------------
-                */
 
                 const user =
                     session.user;
@@ -583,12 +549,6 @@ document.addEventListener(
                         "accountStatus"
                     );
 
-
-                /*
-                --------------------------------
-                DISPLAY USER DATA
-                --------------------------------
-                */
 
                 if (userName) {
 
@@ -635,12 +595,6 @@ document.addEventListener(
                 }
 
 
-                /*
-                --------------------------------
-                WELCOME ANIMATION
-                --------------------------------
-                */
-
                 if (welcomeGreeting) {
 
                     startWelcomeAnimation(
@@ -650,22 +604,18 @@ document.addEventListener(
                 }
 
 
-                /*
-                --------------------------------
-                CONNECTED APPS
-                --------------------------------
-                */
+                // ========================================
+                // CONNECTED APPS
+                // ========================================
 
                 await loadConnectedApps(
                     user.id
                 );
 
 
-                /*
-                --------------------------------
-                POLLINATIONS
-                --------------------------------
-                */
+                // ========================================
+                // POLLINATIONS
+                // ========================================
 
                 await loadPollinationsConnection(
                     user.id
@@ -689,11 +639,9 @@ document.addEventListener(
 
 
 
-        /*
-        ========================================
-        CONNECTED APPS
-        ========================================
-        */
+        // ========================================
+        // CONNECTED APPS
+        // ========================================
 
         async function loadConnectedApps(
             userId
@@ -715,18 +663,37 @@ document.addEventListener(
                 );
 
 
-            if (!loading || !empty || !list) {
+            if (
+                !loading ||
+                !empty ||
+                !list
+            ) {
+
+                console.error(
+                    "Connected Apps elements are missing from dashboard.html."
+                );
+
                 return;
             }
 
 
+            // Always start in loading state.
+
+            loading.hidden =
+                false;
+
+            empty.hidden =
+                true;
+
+            list.innerHTML =
+                "";
+
+
             try {
 
-                /*
-                --------------------------------
-                GET ACTIVE TOKENS
-                --------------------------------
-                */
+                // ========================================
+                // GET ACTIVE TOKENS
+                // ========================================
 
                 const {
                     data: tokens,
@@ -757,8 +724,7 @@ document.addEventListener(
                         .order(
                             "created_at",
                             {
-                                ascending:
-                                    false
+                                ascending: false
                             }
                         );
 
@@ -768,11 +734,9 @@ document.addEventListener(
                 }
 
 
-                /*
-                --------------------------------
-                NO CONNECTIONS
-                --------------------------------
-                */
+                // ========================================
+                // NO CONNECTIONS
+                // ========================================
 
                 if (
                     !tokens ||
@@ -785,19 +749,13 @@ document.addEventListener(
                     empty.hidden =
                         false;
 
-                    list.innerHTML =
-                        "";
-
                     return;
-
                 }
 
 
-                /*
-                --------------------------------
-                GET CLIENT IDs
-                --------------------------------
-                */
+                // ========================================
+                // GET CLIENT IDS
+                // ========================================
 
                 const clientIds =
                     [
@@ -837,11 +795,9 @@ document.addEventListener(
                 }
 
 
-                /*
-                --------------------------------
-                CLIENT LOOKUP
-                --------------------------------
-                */
+                // ========================================
+                // CLIENT LOOKUP
+                // ========================================
 
                 const clientMap =
                     new Map();
@@ -860,11 +816,9 @@ document.addEventListener(
                 }
 
 
-                /*
-                --------------------------------
-                RENDER
-                --------------------------------
-                */
+                // ========================================
+                // RENDER
+                // ========================================
 
                 list.innerHTML =
                     "";
@@ -903,15 +857,10 @@ document.addEventListener(
                 loading.hidden =
                     true;
 
+
                 empty.hidden =
-                    list.children.length === 0;
+                    list.children.length !== 0;
 
-
-                /*
-                --------------------------------
-                SETUP BUTTONS
-                --------------------------------
-                */
 
                 setupConnectedAppButtons();
 
@@ -933,10 +882,17 @@ document.addEventListener(
                 list.innerHTML =
                     "";
 
-                empty.querySelector(
-                    "p"
-                ).textContent =
-                    "Unable to load your connected apps right now.";
+
+                const emptyMessage =
+                    empty.querySelector("p");
+
+
+                if (emptyMessage) {
+
+                    emptyMessage.textContent =
+                        "Unable to load your connected apps right now.";
+
+                }
 
             }
 
@@ -944,11 +900,9 @@ document.addEventListener(
 
 
 
-        /*
-        ========================================
-        CREATE CONNECTED APP CARD
-        ========================================
-        */
+        // ========================================
+        // CREATE CONNECTED APP CARD
+        // ========================================
 
         function createConnectedAppCard(
             token,
@@ -960,10 +914,8 @@ document.addEventListener(
                     "article"
                 );
 
-
             article.className =
                 "service-card";
-
 
             article.dataset.tokenId =
                 token.id;
@@ -974,7 +926,6 @@ document.addEventListener(
                     "div"
                 );
 
-
             information.className =
                 "service-information";
 
@@ -983,7 +934,6 @@ document.addEventListener(
                 document.createElement(
                     "div"
                 );
-
 
             text.className =
                 "service-text";
@@ -1018,8 +968,10 @@ document.addEventListener(
                     {
                         day:
                             "numeric",
+
                         month:
                             "long",
+
                         year:
                             "numeric"
                     }
@@ -1034,9 +986,7 @@ document.addEventListener(
 
             const scopeText =
                 scopes.length > 0
-                    ? scopes.join(
-                        ", "
-                    )
+                    ? scopes.join(", ")
                     : "No permissions";
 
 
@@ -1047,7 +997,6 @@ document.addEventListener(
             text.appendChild(
                 title
             );
-
 
             text.appendChild(
                 description
@@ -1064,7 +1013,6 @@ document.addEventListener(
                     "div"
                 );
 
-
             state.className =
                 "service-state";
 
@@ -1074,10 +1022,8 @@ document.addEventListener(
                     "span"
                 );
 
-
             status.className =
                 "service-status";
-
 
             status.textContent =
                 "Connected";
@@ -1088,23 +1034,18 @@ document.addEventListener(
                     "button"
                 );
 
-
             disconnectButton.type =
                 "button";
-
 
             disconnectButton.className =
                 "unlink-button";
 
-
             disconnectButton.dataset.tokenId =
                 token.id;
-
 
             disconnectButton.dataset.clientName =
                 client.client_name ||
                 client.client_id;
-
 
             disconnectButton.textContent =
                 "Disconnect";
@@ -1114,7 +1055,6 @@ document.addEventListener(
                 status
             );
 
-
             state.appendChild(
                 disconnectButton
             );
@@ -1123,7 +1063,6 @@ document.addEventListener(
             article.appendChild(
                 information
             );
-
 
             article.appendChild(
                 state
@@ -1136,11 +1075,9 @@ document.addEventListener(
 
 
 
-        /*
-        ========================================
-        CONNECTED APP BUTTONS
-        ========================================
-        */
+        // ========================================
+        // CONNECTED APP BUTTONS
+        // ========================================
 
         function setupConnectedAppButtons() {
 
@@ -1170,11 +1107,9 @@ document.addEventListener(
 
 
 
-        /*
-        ========================================
-        OPEN DISCONNECT APP MODAL
-        ========================================
-        */
+        // ========================================
+        // OPEN DISCONNECT APP MODAL
+        // ========================================
 
         function openDisconnectAppModal(
             tokenId,
@@ -1258,11 +1193,9 @@ document.addEventListener(
 
 
 
-        /*
-        ========================================
-        CLOSE DISCONNECT MODAL
-        ========================================
-        */
+        // ========================================
+        // CLOSE DISCONNECT MODAL
+        // ========================================
 
         function closeDisconnectAppModal() {
 
@@ -1290,11 +1223,9 @@ document.addEventListener(
 
 
 
-        /*
-        ========================================
-        ESCAPE
-        ========================================
-        */
+        // ========================================
+        // ESCAPE
+        // ========================================
 
         function handleDisconnectAppEscape(
             event
@@ -1313,11 +1244,9 @@ document.addEventListener(
 
 
 
-        /*
-        ========================================
-        DISCONNECT CONNECTED APP
-        ========================================
-        */
+        // ========================================
+        // DISCONNECT CONNECTED APP
+        // ========================================
 
         async function disconnectConnectedApp(
             tokenId,
@@ -1336,12 +1265,6 @@ document.addEventListener(
 
 
             try {
-
-                /*
-                --------------------------------
-                REVOKE TOKEN
-                --------------------------------
-                */
 
                 const {
                     error
@@ -1367,20 +1290,8 @@ document.addEventListener(
                 }
 
 
-                /*
-                --------------------------------
-                CLOSE MODAL
-                --------------------------------
-                */
-
                 closeDisconnectAppModal();
 
-
-                /*
-                --------------------------------
-                RELOAD CONNECTIONS
-                --------------------------------
-                */
 
                 const {
                     data: {
@@ -1428,11 +1339,9 @@ document.addEventListener(
 
 
 
-        /*
-        ========================================
-        WELCOME GREETING ANIMATION
-        ========================================
-        */
+        // ========================================
+        // WELCOME GREETING ANIMATION
+        // ========================================
 
         function startWelcomeAnimation(
             element
@@ -1448,6 +1357,7 @@ document.addEventListener(
                 {
                     text:
                         "Welcome",
+
                     pause:
                         5000
                 },
@@ -1455,6 +1365,7 @@ document.addEventListener(
                 {
                     text:
                         "Bienvenue",
+
                     pause:
                         5000
                 },
@@ -1462,6 +1373,7 @@ document.addEventListener(
                 {
                     text:
                         "Willkommen",
+
                     pause:
                         5000
                 },
@@ -1469,6 +1381,7 @@ document.addEventListener(
                 {
                     text:
                         "Bienvenido",
+
                     pause:
                         5000
                 },
@@ -1476,6 +1389,7 @@ document.addEventListener(
                 {
                     text:
                         "Benvenuto",
+
                     pause:
                         5000
                 },
@@ -1483,6 +1397,7 @@ document.addEventListener(
                 {
                     text:
                         "ようこそ",
+
                     pause:
                         5000
                 },
@@ -1490,6 +1405,7 @@ document.addEventListener(
                 {
                     text:
                         "欢迎",
+
                     pause:
                         5000
                 },
@@ -1497,6 +1413,7 @@ document.addEventListener(
                 {
                     text:
                         "환영합니다",
+
                     pause:
                         5000
                 }
@@ -1558,7 +1475,9 @@ document.addEventListener(
                 5000
             ).then(
                 () => {
+
                     runAnimation();
+
                 }
             );
 
@@ -1566,11 +1485,9 @@ document.addEventListener(
 
 
 
-        /*
-        ========================================
-        TYPE TEXT
-        ========================================
-        */
+        // ========================================
+        // TYPE TEXT
+        // ========================================
 
         function typeText(
             element,
@@ -1578,9 +1495,7 @@ document.addEventListener(
         ) {
 
             return new Promise(
-                (
-                    resolve
-                ) => {
+                resolve => {
 
                     let index =
                         0;
@@ -1593,8 +1508,7 @@ document.addEventListener(
                                 element.textContent =
                                     text.substring(
                                         0,
-                                        index +
-                                            1
+                                        index + 1
                                     );
 
 
@@ -1625,20 +1539,16 @@ document.addEventListener(
 
 
 
-        /*
-        ========================================
-        DELETE TEXT
-        ========================================
-        */
+        // ========================================
+        // DELETE TEXT
+        // ========================================
 
         function deleteText(
             element
         ) {
 
             return new Promise(
-                (
-                    resolve
-                ) => {
+                resolve => {
 
                     const interval =
                         setInterval(
@@ -1660,15 +1570,13 @@ document.addEventListener(
                                     resolve();
 
                                     return;
-
                                 }
 
 
                                 element.textContent =
                                     currentText.substring(
                                         0,
-                                        currentText.length -
-                                            1
+                                        currentText.length - 1
                                     );
 
 
@@ -1696,20 +1604,16 @@ document.addEventListener(
 
 
 
-        /*
-        ========================================
-        WAIT
-        ========================================
-        */
+        // ========================================
+        // WAIT
+        // ========================================
 
         function wait(
             milliseconds
         ) {
 
             return new Promise(
-                (
-                    resolve
-                ) => {
+                resolve => {
 
                     setTimeout(
                         resolve,
@@ -1723,11 +1627,9 @@ document.addEventListener(
 
 
 
-        /*
-        ========================================
-        LOGOUT
-        ========================================
-        */
+        // ========================================
+        // LOGOUT
+        // ========================================
 
         function setupLogout() {
 
@@ -1782,11 +1684,9 @@ document.addEventListener(
 
 
 
-        /*
-        ========================================
-        BUTTON LOADING
-        ========================================
-        */
+        // ========================================
+        // BUTTON LOADING
+        // ========================================
 
         function setButtonLoading(
             button,
@@ -1834,11 +1734,9 @@ document.addEventListener(
 
 
 
-        /*
-        ========================================
-        LOGIN ERROR HANDLING
-        ========================================
-        */
+        // ========================================
+        // LOGIN ERROR HANDLING
+        // ========================================
 
         function getLoginErrorMessage(
             error
@@ -1880,11 +1778,9 @@ document.addEventListener(
 
 
 
-        /*
-        ========================================
-        POLLINATIONS
-        ========================================
-        */
+        // ========================================
+        // POLLINATIONS
+        // ========================================
 
         async function loadPollinationsConnection(
             userId
@@ -2002,8 +1898,10 @@ document.addEventListener(
                         {
                             day:
                                 "numeric",
+
                             month:
                                 "long",
+
                             year:
                                 "numeric"
                         }
@@ -2034,11 +1932,9 @@ document.addEventListener(
 
 
 
-        /*
-        ========================================
-        POLLINATIONS BUTTONS
-        ========================================
-        */
+        // ========================================
+        // POLLINATIONS BUTTONS
+        // ========================================
 
         function setupPollinationsButtons() {
 
@@ -2072,11 +1968,9 @@ document.addEventListener(
 
 
 
-        /*
-        ========================================
-        START POLLINATIONS OAUTH
-        ========================================
-        */
+        // ========================================
+        // START POLLINATIONS OAUTH
+        // ========================================
 
         async function startPollinationsOAuth() {
 
@@ -2193,11 +2087,9 @@ document.addEventListener(
 
 
 
-        /*
-        ========================================
-        RANDOM STRING
-        ========================================
-        */
+        // ========================================
+        // RANDOM STRING
+        // ========================================
 
         function generateRandomString(
             length
@@ -2233,11 +2125,9 @@ document.addEventListener(
 
 
 
-        /*
-        ========================================
-        PKCE SHA-256
-        ========================================
-        */
+        // ========================================
+        // PKCE SHA-256
+        // ========================================
 
         async function createCodeChallenge(
             verifier
@@ -2270,11 +2160,9 @@ document.addEventListener(
 
 
 
-        /*
-        ========================================
-        BASE64 URL ENCODE
-        ========================================
-        */
+        // ========================================
+        // BASE64 URL ENCODE
+        // ========================================
 
         function base64UrlEncode(
             bytes
@@ -2314,11 +2202,9 @@ document.addEventListener(
 
 
 
-        /*
-        ========================================
-        REDIRECT URI
-        ========================================
-        */
+        // ========================================
+        // REDIRECT URI
+        // ========================================
 
         function getPollinationsRedirectUri() {
 
@@ -2331,11 +2217,9 @@ document.addEventListener(
 
 
 
-        /*
-        ========================================
-        OPEN UNLINK MODAL
-        ========================================
-        */
+        // ========================================
+        // OPEN UNLINK MODAL
+        // ========================================
 
         function openUnlinkModal() {
 
@@ -2400,11 +2284,9 @@ document.addEventListener(
 
 
 
-        /*
-        ========================================
-        CLOSE UNLINK MODAL
-        ========================================
-        */
+        // ========================================
+        // CLOSE UNLINK MODAL
+        // ========================================
 
         function closeUnlinkModal() {
 
@@ -2432,11 +2314,9 @@ document.addEventListener(
 
 
 
-        /*
-        ========================================
-        ESCAPE MODAL
-        ========================================
-        */
+        // ========================================
+        // ESCAPE MODAL
+        // ========================================
 
         function handleUnlinkEscape(
             event
@@ -2455,11 +2335,9 @@ document.addEventListener(
 
 
 
-        /*
-        ========================================
-        UNLINK POLLINATIONS
-        ========================================
-        */
+        // ========================================
+        // UNLINK POLLINATIONS
+        // ========================================
 
         async function unlinkPollinations() {
 
@@ -2628,7 +2506,7 @@ document.addEventListener(
                     "Unlink";
 
 
-                console.error(
+                alert(
                     "Unable to unlink Pollinations right now."
                 );
 
