@@ -10,16 +10,13 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-   <title>05 ID — Dashboard</title>
+    <title>05 ID — Dashboard</title>
 
-<link
-    rel="icon"
-    type="image/png"
-    href="../assets/05-id-logo.png"
->
-
-    
-
+    <link
+        rel="icon"
+        type="image/png"
+        href="../assets/05-id-logo.png"
+    >
 
     <!-- Dashboard CSS -->
 
@@ -27,7 +24,6 @@
         rel="stylesheet"
         href="../css/dashboard.css"
     >
-
 
     <!-- Supabase -->
 
@@ -209,7 +205,7 @@
 
 
             <!-- ====================================
-                 LINKED SERVICES
+                 CONNECTED APPS
             ==================================== -->
 
             <section class="services-section">
@@ -220,6 +216,111 @@
 
                     <p class="section-label">
                         CONNECTIONS
+                    </p>
+
+
+                    <h2>
+                        Connected Apps
+                    </h2>
+
+
+                    <p>
+                        Manage apps that have access to
+                        your 05 ID account.
+                    </p>
+
+
+                </div>
+
+
+
+                <!-- ==================================
+                     CONNECTED APPS CONTAINER
+                ================================== -->
+
+                <div id="connectedAppsContainer">
+
+
+                    <!-- LOADING -->
+
+                    <article
+                        id="connectedAppsLoading"
+                        class="service-card"
+                    >
+
+                        <div class="service-information">
+
+                            <div class="service-text">
+
+                                <h3>
+                                    Connected Apps
+                                </h3>
+
+                                <p>
+                                    Loading your connected apps...
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- NO APPS -->
+
+                    <article
+                        id="connectedAppsEmpty"
+                        class="service-card"
+                        hidden
+                    >
+
+                        <div class="service-information">
+
+                            <div class="service-text">
+
+                                <h3>
+                                    No connected apps
+                                </h3>
+
+                                <p>
+                                    Apps you authorise with
+                                    your 05 ID will appear here.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- APPS ARE INSERTED HERE -->
+
+                    <div
+                        id="connectedAppsList"
+                    ></div>
+
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- ====================================
+                 LINKED SERVICES
+            ==================================== -->
+
+            <section class="services-section">
+
+
+                <div class="section-heading">
+
+
+                    <p class="section-label">
+                        SERVICES
                     </p>
 
 
@@ -338,6 +439,80 @@
 
 
     <!-- ========================================
+         DISCONNECT APP MODAL
+    ======================================== -->
+
+    <div
+        id="disconnectAppModal"
+        class="modal-overlay"
+        hidden
+    >
+
+        <div
+            class="confirmation-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="disconnectAppModalTitle"
+        >
+
+
+            <div class="modal-icon">
+
+                <span>
+                    !
+                </span>
+
+            </div>
+
+
+            <div class="modal-content">
+
+
+                <h2 id="disconnectAppModalTitle">
+                    Disconnect app?
+                </h2>
+
+
+                <p id="disconnectAppModalMessage">
+                    This app will no longer be able to
+                    access your 05 ID information.
+                </p>
+
+
+            </div>
+
+
+            <div class="modal-actions">
+
+
+                <button
+                    id="cancelDisconnectAppButton"
+                    class="modal-cancel-button"
+                    type="button"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    id="confirmDisconnectAppButton"
+                    class="modal-confirm-button"
+                    type="button"
+                >
+                    Disconnect
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================================
          UNLINK CONFIRMATION MODAL
     ======================================== -->
 
@@ -436,3 +611,4 @@
 </body>
 
 </html>
+
