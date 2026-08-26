@@ -1,10 +1,27 @@
 // ========================================
-// 05 ID AUTHORIZATION PAGE
+// 05 ID AUTHORIZATION / ACCOUNT SELECTION
 // ========================================
 
 document.addEventListener(
     "DOMContentLoaded",
-    async () => {
+    async function () {
+
+        console.log(
+            "========================================"
+        );
+
+        console.log(
+            "05 ID ACCOUNT SELECTION"
+        );
+
+        console.log(
+            "========================================"
+        );
+
+
+        // ========================================
+        // ELEMENTS
+        // ========================================
 
         const appName =
             document.getElementById(
@@ -38,15 +55,40 @@ document.addEventListener(
 
 
         // ========================================
-        // OAUTH APPROVE ENDPOINT
+        // ELEMENT CHECK
         // ========================================
+
+        if (
+            !appName ||
+            !accountName ||
+            !accountEmail ||
+            !accountInitial ||
+            !continueButton ||
+            !useAnotherAccountButton
+        ) {
+
+            console.error(
+                "05 ID: Required authorization page element is missing."
+            );
+
+            return;
+
+        }
+
+
+        // ========================================
+        // ENDPOINTS
+        // ========================================
+
+        const CLIENT_INFO_URL =
+            "https://fmkecvetadtihdgeqezo.supabase.co/functions/v1/oauth-client-info";
 
         const OAUTH_APPROVE_URL =
             "https://fmkecvetadtihdgeqezo.supabase.co/functions/v1/oauth-approve";
 
 
         // ========================================
-        // READ AUTHORIZATION REQUEST
+        // READ OAUTH REQUEST
         // ========================================
 
         const params =
@@ -58,11 +100,6 @@ document.addEventListener(
         const clientId =
             params.get(
                 "client_id"
-            );
-
-        const requestedApp =
-            params.get(
-                "app_name"
             );
 
         const redirectUri =
@@ -96,30 +133,47 @@ document.addEventListener(
             );
 
 
+        console.log(
+            "OAuth request:",
+            {
+                clientId,
+                redirectUri,
+                responseType,
+                scope,
+                hasState:
+                    !!state,
+                hasCodeChallenge:
+                    !!codeChallenge,
+                codeChallengeMethod
+            }
+        );
+
+
         // ========================================
-        // CHECK REQUEST
+        // VALIDATE REQUEST
         // ========================================
 
-        if (
-            !clientId ||
-            !requestedApp ||
-            !redirectUri ||
-            !responseType ||
-            !codeChallenge ||
-            !codeChallengeMethod
-        ) {
+        if (!clientId) {
 
             showAuthorizationError(
-                "Invalid authorization request."
+                "Missing OAuth client ID."
             );
 
             return;
+
         }
 
 
-        // ========================================
-        // RESPONSE TYPE
-        // ========================================
+        if (!redirectUri) {
+
+            showAuthorizationError(
+                "Missing redirect URI."
+            );
+
+            return;
+
+        }
+
 
         if (
             responseType !==
@@ -127,16 +181,24 @@ document.addEventListener(
         ) {
 
             showAuthorizationError(
-                "Unsupported authorization request."
+                "Unsupported OAuth response type."
             );
 
             return;
+
         }
 
 
-        // ========================================
-        // PKCE
-        // ========================================
+        if (!codeChallenge) {
+
+            showAuthorizationError(
+                "PKCE code challenge is missing."
+            );
+
+            return;
+
+        }
+
 
         if (
             codeChallengeMethod !==
@@ -144,26 +206,120 @@ document.addEventListener(
         ) {
 
             showAuthorizationError(
-                "Unsupported PKCE method."
+                "Only S256 PKCE is supported."
             );
 
             return;
+
         }
 
 
         // ========================================
-        // DISPLAY APP NAME
-        // ========================================
-
-        appName.textContent =
-            requestedApp;
-
-
-        // ========================================
-        // GET SESSION
+        // LOAD CLIENT INFORMATION
         // ========================================
 
         try {
+
+            console.log(
+                "Loading OAuth client..."
+            );
+
+
+            const clientResponse =
+                await fetch(
+                    `${CLIENT_INFO_URL}?client_id=${encodeURIComponent(clientId)}`,
+                    {
+                        method:
+                            "GET",
+
+                        headers: {
+                            "Accept":
+                                "application/json"
+                        }
+                    }
+                );
+
+
+            console.log(
+                "Client info status:",
+                clientResponse.status
+            );
+
+
+            const responseText =
+                await clientResponse.text();
+
+
+            console.log(
+                "Client info response:",
+                responseText
+            );
+
+
+            let clientResult;
+
+            try {
+
+                clientResult =
+                    JSON.parse(
+                        responseText
+                    );
+
+            } catch {
+
+                throw new Error(
+                    "05 ID returned an invalid client response."
+                );
+
+            }
+
+
+            if (
+                !clientResponse.ok
+            ) {
+
+                throw new Error(
+                    clientResult.error_description ||
+                    clientResult.error ||
+                    "Unable to load OAuth client."
+                );
+
+            }
+
+
+            if (
+                !clientResult.client_name
+            ) {
+
+                throw new Error(
+                    "05 ID did not return an application name."
+                );
+
+            }
+
+
+            // ========================================
+            // DISPLAY CLIENT
+            // ========================================
+
+            appName.textContent =
+                clientResult.client_name;
+
+
+            console.log(
+                "OAuth client loaded:",
+                clientResult
+            );
+
+
+            // ========================================
+            // GET 05 ID SESSION
+            // ========================================
+
+            console.log(
+                "Checking 05 ID session..."
+            );
+
 
             const {
                 data,
@@ -173,15 +329,24 @@ document.addEventListener(
 
 
             if (error) {
+
                 throw error;
+
             }
 
 
             // ========================================
-            // NOT LOGGED IN
+            // NOT SIGNED IN
             // ========================================
 
-            if (!data.session) {
+            if (
+                !data.session
+            ) {
+
+                console.log(
+                    "No 05 ID session found."
+                );
+
 
                 sessionStorage.setItem(
                     "05id_return_to",
@@ -192,12 +357,14 @@ document.addEventListener(
                 window.location.href =
                     "login.html";
 
+
                 return;
+
             }
 
 
             // ========================================
-            // USER
+            // CURRENT USER
             // ========================================
 
             const user =
@@ -206,6 +373,7 @@ document.addEventListener(
 
             const fullName =
                 user.user_metadata?.full_name ||
+                user.email ||
                 "05 ID User";
 
 
@@ -215,11 +383,12 @@ document.addEventListener(
 
 
             // ========================================
-            // DISPLAY ACCOUNT
+            // DISPLAY USER
             // ========================================
 
             accountName.textContent =
                 fullName;
+
 
             accountEmail.textContent =
                 email;
@@ -239,7 +408,7 @@ document.addEventListener(
 
             continueButton.addEventListener(
                 "click",
-                async () => {
+                async function () {
 
                     continueButton.disabled =
                         true;
@@ -253,24 +422,35 @@ document.addEventListener(
 
                     try {
 
+                        console.log(
+                            "Starting OAuth approval..."
+                        );
+
+
                         // ========================================
                         // GET CURRENT SESSION
                         // ========================================
 
                         const {
-                            data: sessionData,
-                            error: sessionError
+                            data:
+                                currentSessionData,
+                            error:
+                                currentSessionError
                         } =
                             await supabaseClient.auth.getSession();
 
 
-                        if (sessionError) {
-                            throw sessionError;
+                        if (
+                            currentSessionError
+                        ) {
+
+                            throw currentSessionError;
+
                         }
 
 
                         if (
-                            !sessionData.session
+                            !currentSessionData.session
                         ) {
 
                             throw new Error(
@@ -281,7 +461,7 @@ document.addEventListener(
 
 
                         // ========================================
-                        // BUILD FORM REQUEST
+                        // BUILD APPROVAL REQUEST
                         // ========================================
 
                         const approveParams =
@@ -334,11 +514,16 @@ document.addEventListener(
                         );
 
 
+                        console.log(
+                            "Sending approval request..."
+                        );
+
+
                         // ========================================
-                        // REQUEST AUTHORIZATION CODE
+                        // APPROVE
                         // ========================================
 
-                        const response =
+                        const approveResponse =
                             await fetch(
                                 OAUTH_APPROVE_URL,
                                 {
@@ -350,10 +535,13 @@ document.addEventListener(
                                             "application/x-www-form-urlencoded",
 
                                         "Authorization":
-                                            `Bearer ${sessionData.session.access_token}`,
+                                            `Bearer ${currentSessionData.session.access_token}`,
 
                                         "apikey":
-                                            SUPABASE_PUBLISHABLE_KEY
+                                            typeof SUPABASE_PUBLISHABLE_KEY !==
+                                                "undefined"
+                                                ? SUPABASE_PUBLISHABLE_KEY
+                                                : ""
                                     },
 
                                     body:
@@ -362,38 +550,51 @@ document.addEventListener(
                             );
 
 
-                        // ========================================
-                        // READ RESPONSE
-                        // ========================================
+                        console.log(
+                            "Approval response status:",
+                            approveResponse.status
+                        );
 
-                        let result;
+
+                        const approveText =
+                            await approveResponse.text();
+
+
+                        console.log(
+                            "Approval response:",
+                            approveText
+                        );
+
+
+                        let approveResult;
 
                         try {
 
-                            result =
-                                await response.json();
+                            approveResult =
+                                JSON.parse(
+                                    approveText
+                                );
 
                         } catch {
 
                             throw new Error(
-                                "05 ID returned an invalid response."
+                                "05 ID returned an invalid authorization response."
                             );
 
                         }
 
 
                         // ========================================
-                        // CHECK RESPONSE
+                        // APPROVAL ERROR
                         // ========================================
 
                         if (
-                            !response.ok ||
-                            !result.success
+                            !approveResponse.ok
                         ) {
 
                             throw new Error(
-                                result.error_description ||
-                                result.error ||
+                                approveResult.error_description ||
+                                approveResult.error ||
                                 "Unable to authorize this application."
                             );
 
@@ -401,11 +602,24 @@ document.addEventListener(
 
 
                         // ========================================
-                        // CHECK AUTHORIZATION CODE
+                        // AUTHORIZATION SUCCESS
                         // ========================================
 
                         if (
-                            !result.code
+                            !approveResult.success
+                        ) {
+
+                            throw new Error(
+                                approveResult.error_description ||
+                                approveResult.error ||
+                                "05 ID could not authorize this application."
+                            );
+
+                        }
+
+
+                        if (
+                            !approveResult.code
                         ) {
 
                             throw new Error(
@@ -415,28 +629,28 @@ document.addEventListener(
                         }
 
 
-                        // ========================================
-                        // CHECK REDIRECT URI
-                        // ========================================
-
                         if (
-                            !result.redirect_uri
+                            !approveResult.redirect_uri
                         ) {
 
                             throw new Error(
-                                "05 ID did not provide a redirect URL."
+                                "05 ID did not return a redirect URI."
                             );
 
                         }
 
 
+                        console.log(
+                            "Authorization successful."
+                        );
+
+
                         // ========================================
-                        // REDIRECT TO APPLICATION
+                        // REDIRECT
                         // ========================================
 
                         window.location.href =
-                            result.redirect_uri;
-
+                            approveResult.redirect_uri;
 
                     } catch (error) {
 
@@ -473,7 +687,7 @@ document.addEventListener(
 
             useAnotherAccountButton.addEventListener(
                 "click",
-                async () => {
+                async function () {
 
                     useAnotherAccountButton.disabled =
                         true;
@@ -493,19 +707,26 @@ document.addEventListener(
                             await supabaseClient.auth.signOut();
 
 
-                        if (error) {
+                        if (
+                            error
+                        ) {
+
                             throw error;
+
                         }
 
+
+                        // ========================================
+                        // RETURN TO LOGIN
+                        // ========================================
 
                         window.location.href =
                             "login.html";
 
-
                     } catch (error) {
 
                         console.error(
-                            "Sign out error:",
+                            "05 ID sign out error:",
                             error
                         );
 
@@ -528,13 +749,14 @@ document.addEventListener(
         } catch (error) {
 
             console.error(
-                "Authorization error:",
+                "Authorization page error:",
                 error
             );
 
 
             showAuthorizationError(
-                "Unable to load your 05 ID."
+                error.message ||
+                "Unable to load OAuth client."
             );
 
         }
@@ -548,25 +770,61 @@ document.addEventListener(
             message
         ) {
 
-            appName.textContent =
-                "05 ID";
+            console.error(
+                "05 ID authorization error:",
+                message
+            );
 
-            accountName.textContent =
-                "Unable to continue";
 
-            accountEmail.textContent =
-                message;
+            if (appName) {
 
-            accountInitial.textContent =
-                "!";
+                appName.textContent =
+                    "05 ID";
 
-            continueButton.disabled =
-                true;
+            }
 
-            useAnotherAccountButton.disabled =
-                true;
+
+            if (accountName) {
+
+                accountName.textContent =
+                    "Unable to continue";
+
+            }
+
+
+            if (accountEmail) {
+
+                accountEmail.textContent =
+                    message;
+
+            }
+
+
+            if (accountInitial) {
+
+                accountInitial.textContent =
+                    "!";
+
+            }
+
+
+            if (continueButton) {
+
+                continueButton.disabled =
+                    true;
+
+            }
+
+
+            if (useAnotherAccountButton) {
+
+                useAnotherAccountButton.disabled =
+                    true;
+
+            }
 
         }
 
     }
 );
+
